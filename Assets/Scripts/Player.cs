@@ -5,6 +5,14 @@ using UnityEngine;
 public class Player : CharacterProperty
 {
     public Transform myCamera;
+    public GameObject[] myWeaponlist;
+    public GameObject myCurWeapon = null;
+    public GameObject[] myGrenade = null;
+    public GameObject myCurGrenade = null;
+    public GameObject[] myPotion = null;
+    public GameObject myCurPotion = null;
+
+    [SerializeField] float myMoney = 0.0f;
     
     float MoveSpeed = 20.0f;
     float WalkSpeed;
@@ -16,11 +24,17 @@ public class Player : CharacterProperty
     float x;
     float y;
 
+    [SerializeField] bool isJump = false;
     bool isWalk;
     bool isRun;
     bool isWall;
     bool isDodge;
-    [SerializeField] bool isJump = false;
+
+    [SerializeField] int number_Grenade = 0;
+    [SerializeField] int number_Potion = 0;
+    [SerializeField] int number_Ammo = 0;
+    int myGrenadeIndex;
+    int myPotionIndex;
 
     Vector3 moveDir = Vector3.zero;
 
@@ -104,7 +118,9 @@ public class Player : CharacterProperty
             MoveSpeed = WalkSpeed * 2;
         }
         if(!isJump && Input.GetKeyDown(KeyCode.Space)) Jump(); //점프
-        if (!myAnim.GetBool("isDodge") && !isJump && Input.GetKeyDown(KeyCode.LeftControl)) StartCoroutine(Dodge());
+        if (!myAnim.GetBool("isDodge") && !myAnim.GetBool("isJump") && Input.GetKeyDown(KeyCode.LeftControl)) StartCoroutine(Dodge());
+
+        if(!myAnim.GetBool("isDodge") && !myAnim.GetBool("isJump"))Grabitem();
     }
 
     void PlayerMove(float x, float y, Vector3 dir)
@@ -128,14 +144,6 @@ public class Player : CharacterProperty
         isJump = true;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.transform.tag == ("CanJump")) //점프 가능구역 밟으면 다시 점프 가능
-        {
-            myAnim.SetBool("isJump", false);
-            isJump = false;
-        }
-    }
     IEnumerator Dodge()
     {
         isDodge = true;
@@ -153,5 +161,118 @@ public class Player : CharacterProperty
             yield return null;
         }
         isDodge = false;
+    }
+    void Grabitem()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
+            if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
+            if(myCurWeapon != null && !myCurWeapon.activeSelf)
+            {
+                myCurWeapon.SetActive(true);
+            }
+            myAnim.SetTrigger("Swap");
+        }
+
+        if(myCurGrenade != null && myCurGrenade.activeSelf == false && number_Grenade > 0 && Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
+            if (myCurWeapon != null && myCurWeapon.activeSelf) myCurWeapon.SetActive(false);
+            myCurGrenade.SetActive(true);
+            myAnim.SetTrigger("Swap");
+        }
+
+        if (myCurPotion != null && myCurPotion.activeSelf == false && number_Potion > 0 && Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
+            if (myCurWeapon != null && myCurWeapon.activeSelf) myCurWeapon.SetActive(false);
+            myCurPotion.SetActive(true);
+            myAnim.SetTrigger("Swap");
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == ("CanJump")) //점프 가능구역 밟으면 다시 점프 가능
+        {
+            myAnim.SetBool("isJump", false);
+            isJump = false;
+        }
+
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == ("Item"))
+        {
+            Item item = other.transform.GetComponent<Item>();
+            switch (item.myType)
+            {
+                case Item.TYPE.Coin:
+                    myMoney += item.value;
+                    break;
+                case Item.TYPE.Ammo:
+                    number_Ammo += 1;
+                    break;
+                case Item.TYPE.Grenade:
+                    if (myCurGrenade == null)
+                    {
+                        myCurGrenade = myGrenade[item.value];
+                        number_Grenade = 1;
+                    }
+                    else
+                    {
+                        if (myCurGrenade.GetComponent<Item>().value == item.value)
+                            number_Grenade += 1;
+                        else
+                        {
+                            number_Grenade = 1;
+                            myCurGrenade = myGrenade[item.value];
+                        }
+                    }
+                    break;
+                case Item.TYPE.Heart:
+                    if (myCurPotion == null)
+                    {
+                        myCurPotion = myPotion[item.value];
+                        number_Potion = 1;
+                    }
+                    else
+                    {
+                        if (myCurPotion.GetComponent<Item>().value == item.value)
+                            number_Potion += 1;
+                        else
+                        {
+                            number_Potion = 1;
+                            myCurPotion = myPotion[item.value];
+                        }
+                    }
+                    break;
+            }
+            Destroy(item.gameObject);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.transform.tag == ("Weapon"))
+        {
+            Debug.Log(other.transform.GetComponent<Item>().value);
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                Item item = other.GetComponent<Item>();
+                if (myCurWeapon != null)
+                {
+                    myCurWeapon.SetActive(false);
+                }
+                myCurWeapon = myWeaponlist[item.value];
+                if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
+                if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
+                myAnim.SetTrigger("Swap");
+                myCurWeapon.SetActive(true);
+                Destroy(item.gameObject);
+            }
+        }
     }
 }
