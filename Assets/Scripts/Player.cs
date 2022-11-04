@@ -33,8 +33,6 @@ public class Player : CharacterProperty
     [SerializeField] int number_Grenade = 0;
     [SerializeField] int number_Potion = 0;
     [SerializeField] int number_Ammo = 0;
-    int myGrenadeIndex;
-    int myPotionIndex;
 
     Vector3 moveDir = Vector3.zero;
 
