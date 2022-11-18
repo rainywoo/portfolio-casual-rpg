@@ -35,6 +35,7 @@ public class Player : CharacterProperty
     bool isRun;
     bool isWall;
     bool isDodge;
+    bool canThrowBomb;
     [SerializeField] bool isReloading;
     [SerializeField] bool isAttacking;
 
@@ -129,9 +130,7 @@ public class Player : CharacterProperty
                     }
                 }
 
-                myAnim.SetBool("isRun", isRun);
-                myAnim.SetBool("isWalk", isWalk);
-                myAnim.SetBool("isDodge", isDodge);
+                AnimSetting();
                 break;
             case STATE.Death:
                 break;
@@ -222,7 +221,7 @@ public class Player : CharacterProperty
                 }
                 if (myCurGrenade != null && number_Grenade > 0 && myCurGrenade.activeSelf)
                 {
-
+                    if(!canThrowBomb) canThrowBomb = true;
                 }
                 if (myCurPotion != null && number_Potion > 0 && myCurPotion.activeSelf)
                 {
@@ -244,7 +243,8 @@ public class Player : CharacterProperty
                 }
                 if (myCurGrenade != null && number_Grenade > 0 && myCurGrenade.activeSelf)
                 {
-
+                    myAnim.SetTrigger("Throw");
+                    if (canThrowBomb) canThrowBomb = false;
                 }
                 if (myCurPotion != null && number_Potion > 0 && myCurPotion.activeSelf)
                 {
@@ -280,6 +280,7 @@ public class Player : CharacterProperty
 
     IEnumerator Dodge()
     {
+        canThrowBomb = false;
         isAttacking = false;
         isDodge = true;
         myAnim.SetTrigger("Dodge");
@@ -301,6 +302,7 @@ public class Player : CharacterProperty
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            if(canThrowBomb) canThrowBomb = false; //¼ö·ùÅº¿¡¼­ ÃÑÀ¸·Î ¹Ù²Ü¶§¸¦ ´ëºñ
             if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
             if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
             if(myCurWeapon != null && !myCurWeapon.activeSelf)
@@ -312,6 +314,7 @@ public class Player : CharacterProperty
 
         if(myCurGrenade != null && myCurGrenade.activeSelf == false && number_Grenade > 0 && Input.GetKeyDown(KeyCode.Alpha2))
         {
+            if (canThrowBomb) canThrowBomb = false; //¼ö·ùÅº¿¡¼­ ÃÑÀ¸·Î ¹Ù²Ü¶§¸¦ ´ëºñ
             if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
             if (myCurWeapon != null && myCurWeapon.activeSelf) myCurWeapon.SetActive(false);
             myCurGrenade.SetActive(true);
@@ -320,6 +323,7 @@ public class Player : CharacterProperty
 
         if (myCurPotion != null && myCurPotion.activeSelf == false && number_Potion > 0 && Input.GetKeyDown(KeyCode.Alpha3))
         {
+            if (canThrowBomb) canThrowBomb = false; //¼ö·ùÅº¿¡¼­ ÃÑÀ¸·Î ¹Ù²Ü¶§¸¦ ´ëºñ
             if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
             if (myCurWeapon != null && myCurWeapon.activeSelf) myCurWeapon.SetActive(false);
             myCurPotion.SetActive(true);
@@ -476,5 +480,13 @@ public class Player : CharacterProperty
         }
         myCurWeapon.GetComponent<Weapons>().Curbullet = myCurWeapon.GetComponent<Weapons>().Maxbullet;
         isReloading = false;
+    }
+
+    void AnimSetting()
+    {
+        myAnim.SetBool("isRun", isRun);
+        myAnim.SetBool("isWalk", isWalk);
+        myAnim.SetBool("isDodge", isDodge);
+        myAnim.SetBool("CanThrow", canThrowBomb);
     }
 }
