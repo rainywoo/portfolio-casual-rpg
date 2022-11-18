@@ -18,8 +18,8 @@ TagManager:
   - Player
   - Floor
   - Camera
-  - 
-  - 
+  - Monster
+  - BulletCase
   - 
   - 
   - 

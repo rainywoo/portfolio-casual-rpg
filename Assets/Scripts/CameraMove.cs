@@ -65,6 +65,6 @@ public class CameraMove : MonoBehaviour
             curCamDist = Vector3.Distance(transform.position, hit.point + myCam.forward * OffsetDist);
         }
 
-        myCam.transform.localPosition = new Vector3(0, 0, -curCamDist);
+        myCam.transform.localPosition = new Vector3(0, 4f, -curCamDist);
     }
 }

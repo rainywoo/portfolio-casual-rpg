@@ -37,7 +37,7 @@ public class BgmManager : MonoBehaviour
     }
     void Start()
     {
-        
+        myState = MYPOS.Home;
     }
 
     // Update is called once per frame
