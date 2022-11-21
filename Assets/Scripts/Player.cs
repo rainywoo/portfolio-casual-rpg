@@ -168,7 +168,7 @@ public class Player : CharacterProperty
             {
                 isAttacking = false;
             }
-            if (Input.GetMouseButton(0))
+            if (!isReloading && Input.GetMouseButton(0))
             {
                 PlayerRotate(lookForward);
                 if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf)
@@ -196,7 +196,7 @@ public class Player : CharacterProperty
 
                 }
             }
-            if (Input.GetMouseButtonDown(0))
+            if (!isReloading && Input.GetMouseButtonDown(0))
             {
                 isAttacking = true;
                 if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf)
@@ -229,7 +229,7 @@ public class Player : CharacterProperty
 
                 }
             }
-            if (Input.GetMouseButtonUp(0))
+            if (!isReloading && Input.GetMouseButtonUp(0))
             {
                 if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf)
                 {
