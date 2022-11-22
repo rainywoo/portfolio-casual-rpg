@@ -9172,7 +9172,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.32
-    functionName: 
+    functionName: OnFire
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

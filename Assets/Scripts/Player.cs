@@ -243,8 +243,11 @@ public class Player : CharacterProperty
                 }
                 if (myCurGrenade != null && number_Grenade > 0 && myCurGrenade.activeSelf)
                 {
-                    myAnim.SetTrigger("Throw");
-                    if (canThrowBomb) canThrowBomb = false;
+                    if (canThrowBomb)
+                    {
+                        myAnim.SetTrigger("Throw");
+                        canThrowBomb = false;
+                    }
                 }
                 if (myCurPotion != null && number_Potion > 0 && myCurPotion.activeSelf)
                 {
@@ -488,5 +491,10 @@ public class Player : CharacterProperty
         myAnim.SetBool("isWalk", isWalk);
         myAnim.SetBool("isDodge", isDodge);
         myAnim.SetBool("CanThrow", canThrowBomb);
+    }
+
+    public void Fireinthehole()
+    {
+        myCurGrenade.GetComponent<Weapons>().Fire(ZoomPosVec, 2.0f);
     }
 }

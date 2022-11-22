@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapons : MonoBehaviour
 {
-    public enum WEAPONTYPE { NULL, Melee, Weapon};
+    public enum WEAPONTYPE { NULL, Melee, Weapon, Granade };
     public WEAPONTYPE myType = WEAPONTYPE.NULL;
 
     public GameObject myBullet = null;
@@ -39,7 +39,7 @@ public class Weapons : MonoBehaviour
         CanShot = curplayTime >= playTime ? true : false;
         if (myType == WEAPONTYPE.Melee) Player.Inst.CanMeleeAttack = CanShot;
     }
-    public void OnFire(Vector3 targetPos)
+    public void OnFire(Vector3 targetPos, float ShotPower = 100.0f)
     {
         Vector3 GoingVec = ((targetPos - myMuzzle.position).normalized);
         if (CanShot && Curbullet > 0)
@@ -57,18 +57,25 @@ public class Weapons : MonoBehaviour
             Fire(GoingVec);
         }
     }
-    void Fire(Vector3 GoingVec)
+    public void Fire(Vector3 GoingVec, float ShotPower = 100.0f)
     {
-        if (myType == WEAPONTYPE.Weapon) StartCoroutine(Shot(GoingVec));
+        if (myType == WEAPONTYPE.Weapon || myType == WEAPONTYPE.Granade) StartCoroutine(Shot(GoingVec, ShotPower));
         if (myType == WEAPONTYPE.Melee) StartCoroutine(Swing(GoingVec));
-        Curbullet--;
+        switch(myType)
+        {
+            case WEAPONTYPE.Granade:
+            case WEAPONTYPE.NULL:
+                break;
+            default: Curbullet--;
+                break;
+        }
     }
 
-    IEnumerator Shot(Vector3 targetPos)
+    IEnumerator Shot(Vector3 targetPos, float ShotPower = 100.0f)
     {
         GameObject obj = Instantiate(myBullet, myMuzzle.position, Quaternion.Euler(targetPos), null) as GameObject;
         Rigidbody myBulRigid = obj.GetComponent<Rigidbody>();
-        myBulRigid.velocity = targetPos * 100.0f;
+        myBulRigid.velocity = targetPos * ShotPower;
         yield return null;
 
         GameObject bulletobj = Instantiate(myBinBullet, myBinMuzzle.position, myBinMuzzle.localRotation, null) as GameObject;

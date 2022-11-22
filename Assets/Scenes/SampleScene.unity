@@ -1413,8 +1413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1e6ccb5ae6f744a870fa5fe9ca3e7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myType: 2
-  myBullet: {fileID: 7209417620919649187, guid: 953ad25ce4201954893773bc2d666f4e, type: 3}
+  myType: 3
+  myBullet: {fileID: 3443020644629891325, guid: f150774c83de8c34392dbd08a78de74a, type: 3}
   myMuzzle: {fileID: 398092137}
   myBinMuzzle: {fileID: 1239347819}
   myBinBullet: {fileID: 2064902635636339450, guid: ffc0bc3f21454b24bbffb3d33733c15a, type: 3}
@@ -1666,7 +1666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7209417620919649187, guid: 10653eccf6b69fd47938a227b4bf3863, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8018429946725390617, guid: 10653eccf6b69fd47938a227b4bf3863, type: 3}
       propertyPath: m_RootOrder
@@ -1738,7 +1738,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fire:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2087329100}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: Fireinthehole
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1106550859
 GameObject:
   m_ObjectHideFlags: 0
@@ -2218,6 +2230,10 @@ PrefabInstance:
     - target: {fileID: 2919552472031960768, guid: 8f5e135a19626f544908fc8f156144b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 107.24926
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403024553794750845, guid: 8f5e135a19626f544908fc8f156144b9, type: 3}
+      propertyPath: m_Name
+      value: PlayerObj
       objectReference: {fileID: 0}
     - target: {fileID: 3767466145501807154, guid: 8f5e135a19626f544908fc8f156144b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2834,6 +2850,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5903297864969995812, guid: 8f5e135a19626f544908fc8f156144b9, type: 3}
   m_PrefabInstance: {fileID: 1635141307}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2087329100 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2087329100, guid: 8f5e135a19626f544908fc8f156144b9, type: 3}
+  m_PrefabInstance: {fileID: 1635141307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dde64a75900a1f44afa6e10f3997310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2120878970
 GameObject:
   m_ObjectHideFlags: 0
@@ -3567,24 +3594,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49015afb736e8f842a199bd270920954, type: 3}
---- !u!1 &8039765502089913319 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3443020644629891325, guid: f150774c83de8c34392dbd08a78de74a, type: 3}
-  m_PrefabInstance: {fileID: 4637279523996576538}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8039765502089913320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8039765502089913319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 730e2279754620c429c4c2df8e315b5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myType: 0
 --- !u!33 &8543167081657060996
 MeshFilter:
   m_ObjectHideFlags: 0

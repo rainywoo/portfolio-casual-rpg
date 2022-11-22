@@ -7,6 +7,7 @@ TagManager:
   - Weapon
   - Item
   - CanJump
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - Camera
   - Monster
   - BulletCase
-  - 
-  - 
+  - Item
+  - Bullet
   - 
   - 
   - 
