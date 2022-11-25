@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 7733513898405781556}
   - component: {fileID: 1347494065192584880}
   - component: {fileID: 3597007190639307449}
-  m_Layer: 0
+  - component: {fileID: 63787496348674472}
+  m_Layer: 11
   m_Name: BombSavePin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +94,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2064902635636339450}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -114,3 +115,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &63787496348674472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064902635636339450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d2777aa8514e8d44bcf03ada5154919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

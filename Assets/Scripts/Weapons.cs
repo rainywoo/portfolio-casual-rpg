@@ -45,19 +45,19 @@ public class Weapons : MonoBehaviour
         if (CanShot && Curbullet > 0)
         {
             curplayTime = 0.0f;
-            Fire(GoingVec);
+            Fire(GoingVec, ShotPower);
         }
     }
 
-    public void ButtonDownOnFire(Vector3 targetPos)
+    public void ButtonDownOnFire(Vector3 targetPos, float ShotPower = 100.0f, bool CanShot = false)
     {
         Vector3 GoingVec = ((targetPos - myMuzzle.position).normalized);
-        if (Curbullet > 0)
+        if (Curbullet > 0 || CanShot)
         {
-            Fire(GoingVec);
+            Fire(GoingVec, ShotPower);
         }
     }
-    public void Fire(Vector3 GoingVec, float ShotPower = 100.0f)
+    void Fire(Vector3 GoingVec, float ShotPower)
     {
         if (myType == WEAPONTYPE.Weapon || myType == WEAPONTYPE.Granade) StartCoroutine(Shot(GoingVec, ShotPower));
         if (myType == WEAPONTYPE.Melee) StartCoroutine(Swing(GoingVec));
@@ -71,7 +71,7 @@ public class Weapons : MonoBehaviour
         }
     }
 
-    IEnumerator Shot(Vector3 targetPos, float ShotPower = 100.0f)
+    IEnumerator Shot(Vector3 targetPos, float ShotPower)
     {
         GameObject obj = Instantiate(myBullet, myMuzzle.position, Quaternion.Euler(targetPos), null) as GameObject;
         Rigidbody myBulRigid = obj.GetComponent<Rigidbody>();

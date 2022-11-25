@@ -25,6 +25,7 @@ public class Player : CharacterProperty
     float jumpPower = 15.0f;
     float DodgeDistance;
     float DodgeSpeed = 40.0f;
+    float ThrowPower = 50.0f;
 
     float x;
     float y;
@@ -225,7 +226,9 @@ public class Player : CharacterProperty
                 }
                 if (myCurPotion != null && number_Potion > 0 && myCurPotion.activeSelf)
                 {
-
+                    //if (myInfo.CurHP >= myInfo.MaxHP) return;
+                    myAnim.SetTrigger("Swing");
+                    UsePotion();
                 }
             }
             if (!isReloading && Input.GetMouseButtonUp(0))
@@ -493,8 +496,14 @@ public class Player : CharacterProperty
         myAnim.SetBool("CanThrow", canThrowBomb);
     }
 
-    public void Fireinthehole()
+    public void Fireinthehole()  
     {
-        myCurGrenade.GetComponent<Weapons>().Fire(ZoomPosVec, 2.0f);
+        myCurGrenade.GetComponent<Weapons>().ButtonDownOnFire(ZoomPosVec, ThrowPower, !canThrowBomb);
+    }
+
+    void UsePotion()
+    {
+        myInfo.CurHP += (myInfo.MaxHP - myInfo.CurHP) * (myCurPotion.GetComponent<Useitem_Heal>().healAmount / 100);
+        number_Potion--;
     }
 }

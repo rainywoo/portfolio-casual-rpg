@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2631159518896067143}
   - component: {fileID: 8039765502089913320}
   - component: {fileID: 8276199704294266097}
-  - component: {fileID: 1931855007000980713}
+  - component: {fileID: 1892537851310148494}
   m_Layer: 12
   m_Name: Granade Bullet
   m_TagString: Untagged
@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 3443020644629891325}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.700342, y: 1.7000009, z: 0.49333477}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6105338265579253710}
@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myType: 0
+  BombEffect: {fileID: 4404165828299477317, guid: e1e8149410a8cf94f9b6e8be042d4ab3, type: 3}
 --- !u!54 &8276199704294266097
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3443020644629891325}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -147,7 +148,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &1931855007000980713
+--- !u!135 &1892537851310148494
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,5 +159,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 0.7
   m_Center: {x: 0, y: 0.3, z: 0}
