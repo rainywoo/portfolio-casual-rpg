@@ -72,6 +72,7 @@ public class Player : CharacterProperty
     {
         Debug.DrawRay(transform.position, transform.forward * 5, Color.black);
         isWall = Physics.Raycast(transform.position, transform.forward, 5, LayerMask.GetMask("Wall"));
+        FixedStateProcess();
     }
 
     // Update is called once per frame
@@ -97,6 +98,20 @@ public class Player : CharacterProperty
         }
     }
 
+    void FixedStateProcess()
+    {
+        switch (myState)
+        {
+            case STATE.Create:
+                break;
+            case STATE.Alive:
+                if (!isWall && !isDodge && !isAttacking) PlayerMove(x, y, moveDir); //벽에 부딪치면 못움직이게 , 움직이는 코드
+                break;
+            case STATE.Death:
+                break;
+        }
+    }
+
     void StateProcess()
     {
         switch (myState)
@@ -108,7 +123,6 @@ public class Player : CharacterProperty
                 WeaponReset();
                 FindZoomVec();
 
-                if (!isWall && !isDodge && !isAttacking) PlayerMove(x, y, moveDir); //벽에 부딪치면 못움직이게 , 움직이는 코드
                 if (isAttacking)
                 {
                     isRun = false;
@@ -266,7 +280,7 @@ public class Player : CharacterProperty
     {
         if (isRun)
         {
-            transform.position += moveDir * MoveSpeed * Time.deltaTime; //구한 벡터로 움직임
+            transform.position += moveDir * MoveSpeed * Time.fixedDeltaTime; //구한 벡터로 움직임
         }
     }
 
