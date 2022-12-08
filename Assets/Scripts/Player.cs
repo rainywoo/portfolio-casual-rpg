@@ -2,8 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : CharacterProperty
+public class Player : CharacterProperty , IBattle
 {
+    public Transform myHeadPos;
+
+    public Transform HeadPos
+    {
+        get => myHeadPos;
+    }
+    public bool IsLive
+    {
+        get
+        {
+            if (myInfo.CurHP > 0) return true;
+            else return false;
+        }
+    }
+
     public CharactorStat myInfo;
     public LayerMask ShotLay;
 
@@ -519,5 +534,10 @@ public class Player : CharacterProperty
     {
         myInfo.CurHP += (myInfo.MaxHP - myInfo.CurHP) * (myCurPotion.GetComponent<Useitem_Heal>().healAmount / 100);
         number_Potion--;
+    }
+
+    public void OnDamage(float dmg)
+    {
+        myInfo.CurHP -= dmg;
     }
 }

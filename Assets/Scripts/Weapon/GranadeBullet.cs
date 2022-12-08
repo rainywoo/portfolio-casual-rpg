@@ -41,4 +41,17 @@ public class GranadeBullet : MonoBehaviour
         GameObject obj = Instantiate(BombEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
+    public void Shot(Vector3 Pos, float Power)
+    {
+        Rigidbody myrigid = GetComponent<Rigidbody>();
+        myrigid.AddForce(Pos * Power, ForceMode.Impulse);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
+        {
+            DoBomb();
+        }
+    }
 }

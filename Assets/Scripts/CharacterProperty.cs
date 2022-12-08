@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CharacterProperty : MonoBehaviour
 {
@@ -62,6 +63,7 @@ public class CharacterProperty : MonoBehaviour
             return _collider;
         }
     }
+    
 
     AudioSource _mySpeaker = null;
 

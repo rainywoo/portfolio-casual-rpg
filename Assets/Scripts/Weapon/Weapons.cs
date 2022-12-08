@@ -12,22 +12,26 @@ public class Weapons : MonoBehaviour
     public Transform myBinMuzzle = null;
     public GameObject myBinBullet = null;
 
+    [SerializeField] GunAndBulletStat myStat;
     public static Weapons Inst;
 
     public int Maxbullet;
     public int Curbullet;
     public float playTime = 0.0f;
+    float BulletMoveSpeed;
+    float criticalChance;
+    float Damage;
     [SerializeField] float curplayTime = 0.0f;
     [SerializeField] bool CanShot = false;
     public int Value;
 
     void Awake()
     {
-        Inst = this;
+        Inst = this;   
     }
     private void Start()
     {
-        Curbullet = Maxbullet;
+        
     }
     // Update is called once per frame
     void Update()
@@ -38,6 +42,15 @@ public class Weapons : MonoBehaviour
         }
         CanShot = curplayTime >= playTime ? true : false;
         if (myType == WEAPONTYPE.Melee) Player.Inst.CanMeleeAttack = CanShot;
+    }
+    public void Initialize()
+    {
+        Damage = myStat.Damage;
+        criticalChance = myStat.criticalChance;
+        BulletMoveSpeed = myStat.MoveSpeed;
+        playTime = myStat.AttackDelay;
+        Maxbullet = myStat.Maxbullet;
+        Curbullet = Maxbullet;
     }
     public void OnFire(Vector3 targetPos, float ShotPower = 100.0f)
     {
@@ -74,8 +87,16 @@ public class Weapons : MonoBehaviour
     IEnumerator Shot(Vector3 targetPos, float ShotPower)
     {
         GameObject obj = Instantiate(myBullet, myMuzzle.position, Quaternion.Euler(targetPos), null) as GameObject;
-        Rigidbody myBulRigid = obj.GetComponent<Rigidbody>();
-        myBulRigid.velocity = targetPos * ShotPower;
+        //Rigidbody myBulRigid = obj.GetComponent<Rigidbody>();
+        //myBulRigid.velocity = targetPos * ShotPower;
+        if (myType == WEAPONTYPE.Melee || myType == WEAPONTYPE.Weapon)
+        {
+            obj.GetComponent<Bullet>().Initialize(BulletMoveSpeed, Damage, criticalChance, targetPos);
+        }
+        else if(myType == WEAPONTYPE.Granade)
+        {
+            obj.GetComponent<GranadeBullet>().Shot(targetPos, myStat.MoveSpeed * 5);
+        }
         yield return null;
 
         GameObject bulletobj = Instantiate(myBinBullet, myBinMuzzle.position, myBinMuzzle.localRotation, null) as GameObject;
