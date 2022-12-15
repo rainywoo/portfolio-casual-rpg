@@ -15,7 +15,11 @@ public class Player : CharacterProperty , IBattle
         get
         {
             if (myInfo.CurHP > 0) return true;
-            else return false;
+            else
+            {
+                ChangeState(STATE.Death);
+                return false;
+            }
         }
     }
 
@@ -109,6 +113,7 @@ public class Player : CharacterProperty , IBattle
                 WeaponReset();
                 break;
             case STATE.Death:
+                myAnim.SetTrigger("Die");
                 break;
         }
     }
@@ -539,5 +544,6 @@ public class Player : CharacterProperty , IBattle
     public void OnDamage(float dmg)
     {
         myInfo.CurHP -= dmg;
+        StartCoroutine(BattleSystem.Damaging(myRenderer));
     }
 }

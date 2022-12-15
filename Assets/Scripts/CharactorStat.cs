@@ -16,7 +16,7 @@ public struct CharactorStat
     public float CurHP
     {
         get => curHP;
-        set => curHP = Mathf.Clamp(curHP, 0.0f, maxHP);
+        set => curHP = Mathf.Clamp(value, 0.0f, maxHP);
     }
     [SerializeField] int maxLevel;
     public int MaxLevel
@@ -28,7 +28,7 @@ public struct CharactorStat
     public int CurLevel
     {
         get => curLevel;
-        set => curLevel = Mathf.Clamp(curLevel, 0, maxLevel);
+        set => curLevel = Mathf.Clamp(value, 0, maxLevel);
     }
     [SerializeField] int coin;
     public int Coin

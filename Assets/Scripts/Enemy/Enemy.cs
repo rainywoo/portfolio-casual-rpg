@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public delegate void myAction();
+public delegate void myAction<T>(T t);
+
 public class Enemy : CharacterProperty
 {
     protected enum STATE { Create, Alive, Battle, Death };
@@ -27,18 +30,18 @@ public class Enemy : CharacterProperty
 
 
 
-    protected void FollowPlayer(Transform myTarget, float Range)
+    protected void FollowPlayer(Transform myTarget, float Range, myAction done = null)
     {
         if (NavMesh.CalculatePath(transform.position, myTarget.position, 1 << NavMesh.GetAreaFromName("Walkable"), myPath))
         {
             if (coMove != null) StopCoroutine(coMove);
             if (coRot != null) StopCoroutine(coRot);
-            coMove = StartCoroutine(Moving(myPath.corners, Range));
+            coMove = StartCoroutine(Moving(myPath.corners, Range, done));
         }
     }
 
     Coroutine coRot = null;
-    protected IEnumerator Moving(Vector3[] poslist, float Range)
+    protected IEnumerator Moving(Vector3[] poslist, float Range, myAction done = null)
     {
         if (poslist.Length <= 1) yield break;        
         int nextPos = 1;
@@ -46,13 +49,13 @@ public class Enemy : CharacterProperty
         while (nextPos < poslist.Length)
         {
             Vector3 dir = poslist[nextPos] - poslist[nextPos - 1];
-            float dist = dir.magnitude - Range;
+            float dist = dir.magnitude;
             dir.Normalize();
 
             if (coRot != null) StopCoroutine(coRot);
             coRot = StartCoroutine(Movement1.Rotating(transform, poslist[nextPos], RotSpeed));
 
-            while (dist > Mathf.Epsilon)
+            while (dist > Range)
             {
                 float delta = Time.deltaTime * MoveSpeed;
                 if (delta > dist)
@@ -66,5 +69,6 @@ public class Enemy : CharacterProperty
             nextPos++;
         }
         myAnim.SetBool("isMoving", false);
+        done?.Invoke();
     }
 }

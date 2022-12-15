@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             IBattle ib = other.GetComponent<IBattle>();
-            if (ib.IsLive)
+            if (ib != null && ib.IsLive)
             {
                 ib.OnDamage(Damage);
             }

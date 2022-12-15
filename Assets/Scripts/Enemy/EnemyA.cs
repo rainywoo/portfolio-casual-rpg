@@ -23,6 +23,13 @@ public class EnemyA : Enemy , IBattle
     [SerializeField] STATE myState = STATE.Create;
     [SerializeField] TYPE myType = TYPE.Normal;
     public EnemyStat myStat;
+    public Transform myHitPos;
+
+    public LayerMask myTargetLay = default;
+
+    float playtime = 0.0f;
+
+    [SerializeField] bool CanMove = true;
 
     Coroutine AtCo;
     // Start is called before the first frame update
@@ -44,24 +51,29 @@ public class EnemyA : Enemy , IBattle
         switch (s)
         {
             case STATE.Create:
+                myAnim.SetBool("CanMove", true);
                 break;
             case STATE.Alive:
+                myAnim.SetBool("CanMove", true);
                 myStat.Initialize();
                 MoveSpeed = myStat.WalkSpeed;
                 break;
             case STATE.Battle:
+                myAnim.SetBool("CanMove", true);
                 MoveSpeed = myStat.RunSpeed;
                 break;
             case STATE.Death:
                 StopAllCoroutines();
+                myAnim.SetBool("CanMove", false);
                 if (myAnim.GetBool("isMoving"))
-                    myAnim.SetBool("isMoving", false);
+                    myAnim.SetBool("isMoving", CanMove);
                 StartCoroutine(OnDeath());
                 break;
         }
     }
     void StateProcess()
     {
+        CanMove = myAnim.GetBool("CanMove");
         switch (myState)
         {
             case STATE.Create:
@@ -69,22 +81,14 @@ public class EnemyA : Enemy , IBattle
             case STATE.Alive:
                 break;
             case STATE.Battle:
-                if (myTarget != null && Vector3.Distance(myTarget.position, transform.position) > myStat.AttackRange - 0.01f)
+                if (myTarget != null && CanMove && myTarget.GetComponent<Player>().IsLive)
                 {
-                    FollowPlayer(myTarget, myStat.AttackRange);
+                    FollowPlayer(myTarget, myStat.AttackRange, OnAttack);
                 }
-                float playtime = 0.0f;
+                
                 if (myStat.AttackSpeed > playtime)
                 {
                     playtime += Time.deltaTime;
-                }
-                if (myTarget != null && Vector3.Distance(myTarget.position, transform.position) <= myStat.AttackRange)
-                {
-                    if (playtime >= myStat.AttackSpeed)
-                    {
-                        playtime = 0.0f;
-                        StartCoroutine(Attack());
-                    }
                 }
                 
                 for (int i = 0; i < myPath.corners.Length - 1; ++i)
@@ -96,10 +100,17 @@ public class EnemyA : Enemy , IBattle
                 break;
         }
     }
+    void OnAttack()
+    {
+        if (playtime >= myStat.AttackSpeed)
+        {
+            playtime = 0.0f;
+            StartCoroutine(Attack());
+        }
+    }
     IEnumerator Attack()
     {
         myAnim.SetTrigger("Attack");
-        myAnim.SetBool("isAttacking", true);
         while(myAnim.GetBool("isAttacking"))
         {
             yield return null;
@@ -129,5 +140,26 @@ public class EnemyA : Enemy , IBattle
         myAnim.SetTrigger("Die");
         yield return new WaitForSeconds(4.0f);
         Destroy(gameObject);
+    }
+
+    public void AttackDamage()
+    {
+        Collider[] list = Physics.OverlapSphere(myHitPos.position, 2.0f, myTargetLay);
+        foreach(Collider col in list)
+        {
+            IBattle ib = col.GetComponent<IBattle>();
+            if(ib != null && ib.IsLive) ib.OnDamage(myStat.Power);
+        }
+    }
+
+    public void AttackStart()
+    {
+        myAnim.SetBool("CanMove", false);
+        myAnim.SetBool("isAttacking", true);
+    }
+    public void AttackExit()
+    {
+        myAnim.SetBool("CanMove", true);
+        myAnim.SetBool("isAttacking", false);
     }
 }
