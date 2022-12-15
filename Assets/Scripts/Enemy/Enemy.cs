@@ -8,7 +8,7 @@ public delegate void myAction<T>(T t);
 
 public class Enemy : CharacterProperty
 {
-    protected enum STATE { Create, Alive, Battle, Death };
+    public enum STATE { Create, Alive, Battle, Death };
     protected enum TYPE { Normal, Boss, Special };
     public NavMeshAgent myNav;
     Coroutine coMove;
@@ -70,5 +70,82 @@ public class Enemy : CharacterProperty
         }
         myAnim.SetBool("isMoving", false);
         done?.Invoke();
+    }
+    protected IEnumerator RandMove(Vector3 RandStartPos,float MoveSpeed)
+    {
+        yield return new WaitForSeconds(Random.Range(2, 3));
+        Vector3 Pos = RandStartPos;
+        Pos.x = Pos.x + Random.Range(-10, 11);
+        Pos.z = Pos.z + Random.Range(-10, 11);
+        MoveToPosition(Pos, MoveSpeed, 360.0f ,() => StartCoroutine(RandMove(RandStartPos, MoveSpeed)));
+    }
+    protected void MoveToPosition(Vector3 targetPos, float MovSpeed = 1.0f, float RotSpeed = 360.0f, MyAction done = null)
+    {
+        //if (Vector3.Distance(targetPos, transform.position) < 0.01f)
+        //{
+        //    done?.Invoke();
+        //    return;
+        //}
+        if (coMove != null) StopCoroutine(coMove);
+        coMove = StartCoroutine(MovingToPosition(targetPos, MovSpeed, done));
+        if (coRot != null) StopCoroutine(coRot);
+        coRot = StartCoroutine(Rotating(transform, targetPos, RotSpeed));
+    }
+
+    IEnumerator MovingToPosition(Vector3 target, float MovSpeed, MyAction done = null)
+    {
+        Vector3 dir = target - transform.position;
+        float dist = dir.magnitude;
+        if (dist <= Mathf.Epsilon) yield break;
+        dir.Normalize();
+
+        myAnim.SetBool("isMoving", true);
+
+        while (dist > 0.0f)
+        {
+            if (!myAnim.GetBool("isAttacking"))
+            {
+                float delta = MovSpeed * Time.deltaTime;
+                if (delta > dist)
+                {
+                    delta = dist;
+                }
+                dist -= delta;
+                transform.Translate(dir * delta, Space.World);
+            }
+            else
+            {
+                break;
+            }
+            yield return null;
+        }
+        myAnim.SetBool("isMoving", false);
+        //if (done != null) done();
+        done?.Invoke();
+    }
+    public static IEnumerator Rotating(Transform transform, Vector3 target, float RotSpeed)
+    {
+        Vector3 dir = target - transform.position;
+        if (dir.magnitude <= Mathf.Epsilon) yield break;
+        dir.Normalize();
+        float d = Vector3.Dot(dir, transform.forward);
+        float r = Mathf.Acos(d);
+        float angle = r * Mathf.Rad2Deg;//Mathf.Rad2Deg = 180.0f / Mathf.PI;
+
+        if (angle > Mathf.Epsilon)
+        {
+            float rotDir = Vector3.Dot(dir, transform.right) < 0.0f ? -1.0f : 1.0f;
+            while (angle > Mathf.Epsilon)
+            {
+                float delta = RotSpeed * Time.deltaTime;
+                if (delta > angle)
+                {
+                    delta = angle;
+                }
+                angle -= delta;
+                transform.Rotate(Vector3.up * rotDir * delta, Space.World);
+                yield return null;
+            }
+        }
     }
 }

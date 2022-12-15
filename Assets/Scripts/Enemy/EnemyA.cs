@@ -20,10 +20,11 @@ public class EnemyA : Enemy , IBattle
         }
     }
     public Transform myTarget;
-    [SerializeField] STATE myState = STATE.Create;
+    [SerializeField] protected STATE myState = STATE.Create;
     [SerializeField] TYPE myType = TYPE.Normal;
     public EnemyStat myStat;
     public Transform myHitPos;
+    Vector3 StartPos = new Vector3();
 
     public LayerMask myTargetLay = default;
 
@@ -36,6 +37,7 @@ public class EnemyA : Enemy , IBattle
     void Start()
     {
         myPath = new NavMeshPath();
+        StartPos = transform.position;
         ChangeState(STATE.Alive);
     }
 
@@ -44,7 +46,7 @@ public class EnemyA : Enemy , IBattle
     {
         StateProcess();
     }
-    void ChangeState(STATE s)
+    public void ChangeState(STATE s)
     {
         if (myState == s) return;
         myState = s;
@@ -57,8 +59,10 @@ public class EnemyA : Enemy , IBattle
                 myAnim.SetBool("CanMove", true);
                 myStat.Initialize();
                 MoveSpeed = myStat.WalkSpeed;
+                StartCoroutine(RandMove(StartPos, MoveSpeed));
                 break;
             case STATE.Battle:
+                StopAllCoroutines();
                 myAnim.SetBool("CanMove", true);
                 MoveSpeed = myStat.RunSpeed;
                 break;
@@ -161,5 +165,9 @@ public class EnemyA : Enemy , IBattle
     {
         myAnim.SetBool("CanMove", true);
         myAnim.SetBool("isAttacking", false);
+    }
+    public bool Changable()
+    {
+        return myState != STATE.Death;
     }
 }
