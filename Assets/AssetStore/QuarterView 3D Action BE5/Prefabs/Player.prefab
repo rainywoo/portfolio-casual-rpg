@@ -187,7 +187,6 @@ GameObject:
   - component: {fileID: 5903297864969995812}
   - component: {fileID: 2087329102}
   - component: {fileID: 2087329101}
-  - component: {fileID: 2087329100}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -204,7 +203,7 @@ Transform:
   m_GameObject: {fileID: 5461052779654786451}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2626205932478927815}
@@ -241,50 +240,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 4.3, z: 2}
   m_Center: {x: 0, y: 2.035, z: 0.2}
---- !u!114 &2087329100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5461052779654786451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dde64a75900a1f44afa6e10f3997310, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myInfo:
-    maxHP: 100
-    curHP: 100
-    maxLevel: 100
-    curLevel: 1
-    coin: 0
-  ShotLay:
-    serializedVersion: 2
-    m_Bits: 960
-  myCamera: {fileID: 0}
-  myWeaponlist:
-  - {fileID: 1509416925600180901}
-  - {fileID: 1348174882140631611}
-  - {fileID: 547435428679628747}
-  myCurWeapon: {fileID: 0}
-  myGrenade:
-  - {fileID: 7209417622100223984}
-  myCurGrenade: {fileID: 0}
-  myPotion:
-  - {fileID: 690041606090690374}
-  myCurPotion: {fileID: 0}
-  myHpBar: {fileID: 0}
-  handRange: 1
-  CanMeleeAttack: 0
-  isJump: 0
-  isReloading: 0
-  isAttacking: 0
-  number_Grenade: 0
-  number_Potion: 0
-  number_Ammo: 0
-  number_Weapon: 0
-  myState: 0
 --- !u!1001 &84786554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -318,7 +273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1509416925549156319, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2285952976136801637, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
       propertyPath: m_RootOrder
@@ -366,11 +321,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
---- !u!1 &1509416925600180901 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1509416925549156319, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
-  m_PrefabInstance: {fileID: 84786554}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2285952976187830303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2285952976136801637, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
@@ -427,6 +377,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon Hammer
       objectReference: {fileID: 0}
+    - target: {fileID: 1348174882345252545, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1873072230472789115, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -473,11 +427,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
---- !u!1 &1348174882140631611 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1348174882345252545, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
-  m_PrefabInstance: {fileID: 206718202}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1873072230534539393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1873072230472789115, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
@@ -652,6 +601,7 @@ MonoBehaviour:
   myMuzzle: {fileID: 292374389}
   myBinMuzzle: {fileID: 1239347819}
   myBinBullet: {fileID: 2064902635636339450, guid: ffc0bc3f21454b24bbffb3d33733c15a, type: 3}
+  myStat: {fileID: 0}
   Maxbullet: 0
   Curbullet: 0
   playTime: 0
@@ -697,6 +647,10 @@ PrefabInstance:
     - target: {fileID: 547435428816858648, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
       propertyPath: m_Name
       value: Weapon SubMachineGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 547435428816858648, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 924136447322616994, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
       propertyPath: m_RootOrder
@@ -744,11 +698,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
---- !u!1 &547435428679628747 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 547435428816858648, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
-  m_PrefabInstance: {fileID: 2013141459}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &924136446562528625 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 924136447322616994, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
@@ -1109,7 +1058,7 @@ MonoBehaviour:
   Fire:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2087329100}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: Fireinthehole
         m_Mode: 1
