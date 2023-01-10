@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3961790507629853686}
-  - component: {fileID: 1215415819800186496}
+  - component: {fileID: 1364786631062292558}
   - component: {fileID: 3687905193769816575}
   m_Layer: 5
   m_Name: HealthBar_LR
@@ -116,7 +116,7 @@ RectTransform:
   m_AnchoredPosition: {x: 9.8, y: 9.66}
   m_SizeDelta: {x: 160, y: 30.49}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1215415819800186496
+--- !u!114 &1364786631062292558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myHpBar: {fileID: 3687905193769816575}
+  myTarget: {fileID: 0}
 --- !u!114 &3687905193769816575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +177,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.261
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

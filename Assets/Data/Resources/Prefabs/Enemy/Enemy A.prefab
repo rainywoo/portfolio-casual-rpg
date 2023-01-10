@@ -60,7 +60,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 150
+  m_Radius: 300
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &811598735187179665
 GameObject:
@@ -166,7 +166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138810421502458631}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 317.6291, y: 24.799673, z: 201.99896}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -217,17 +217,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f7a9e6c2d19ba49a62c3b666259961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myDropItem:
+  - {fileID: 8585179287510410319, guid: d9e50fbf2d00c6c4ab189e267fc3e618, type: 3}
+  - {fileID: 856051739913739562, guid: 91985da28fe124946981e4d13d021939, type: 3}
+  - {fileID: 8585179287510410319, guid: d9e50fbf2d00c6c4ab189e267fc3e618, type: 3}
+  - {fileID: 8585179287510410319, guid: d9e50fbf2d00c6c4ab189e267fc3e618, type: 3}
+  DropPersent: 64000000500000003c0000003c000000
   myNav: {fileID: 0}
   myHeadPos: {fileID: 0}
   myTarget: {fileID: 0}
-  myState: 0
-  myType: 0
   myStat: {fileID: 3939930156116028825}
   myHitPos: {fileID: 811598735187179666}
+  myState: 0
+  myType: 0
   myTargetLay:
     serializedVersion: 2
     m_Bits: 128
   CanMove: 1
+  isSpawned: 0
 --- !u!114 &3939930156116028825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,7 +289,7 @@ Transform:
   - {fileID: 2881964417837260725}
   m_Father: {fileID: 5747455293989084655}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 71.052635, y: -1.4984714, z: -1.307659}
+  m_LocalEulerAnglesHint: {x: 75.47856, y: -177.93997, z: -177.90077}
 --- !u!1 &2290947163782207083
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +322,7 @@ Transform:
   - {fileID: 127164110095326529}
   m_Father: {fileID: 1937619284211881253}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 17.486824, y: -22.807549, z: -88.231064}
+  m_LocalEulerAnglesHint: {x: 22.162848, y: 89.999985, z: -90.00001}
 --- !u!1 &2409291795742842605
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +665,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  CameraShake:
+    m_PersistentCalls:
+      m_Calls: []
+  LandCameraShake:
+    m_PersistentCalls:
+      m_Calls: []
+  Shot1:
+    m_PersistentCalls:
+      m_Calls: []
+  Shot2:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5890637569803650647
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,7 +823,7 @@ Transform:
   - {fileID: 3285982776930035356}
   m_Father: {fileID: 8231577392541072307}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 17.181202, y: 21.027786, z: 87.83882}
+  m_LocalEulerAnglesHint: {x: 21.896898, y: -87.242424, z: 90.03989}
 --- !u!1 &8192745922276310967
 GameObject:
   m_ObjectHideFlags: 0

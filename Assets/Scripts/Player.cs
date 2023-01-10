@@ -14,10 +14,9 @@ public class Player : CharacterProperty , IBattle
     {
         get
         {
-            if (myInfo.CurHP > 0) return true;
+            if (myInfo.CurHP > Mathf.Epsilon) return true;
             else
             {
-                ChangeState(STATE.Death);
                 return false;
             }
         }
@@ -58,6 +57,7 @@ public class Player : CharacterProperty , IBattle
     bool canThrowBomb;
     [SerializeField] bool isReloading;
     [SerializeField] bool isAttacking;
+    bool canShot;
 
     [SerializeField] int number_Grenade = 0;
     [SerializeField] int number_Potion = 0;
@@ -84,12 +84,12 @@ public class Player : CharacterProperty , IBattle
         myState = STATE.Alive;
         number_Weapon = 0;
         myCurWeapon = myWeaponlist[number_Weapon];
+        WeaponImageUpdate(number_Weapon);
 
         WalkSpeed = MoveSpeed / 2;
     }
     private void FixedUpdate()
     {
-        Debug.DrawRay(transform.position, transform.forward * 5, Color.black);
         isWall = Physics.Raycast(transform.position, transform.forward, 5, LayerMask.GetMask("Wall"));
         FixedStateProcess();
     }
@@ -196,7 +196,15 @@ public class Player : CharacterProperty , IBattle
 
         if(!myAnim.GetBool("isDodge") && !myAnim.GetBool("isJump"))Grabitem();
 
-        if (!myAnim.GetBool("isJump") && !myAnim.GetBool("isDodge"))
+        if (!isReloading && !isAttacking && myCurWeapon.activeSelf)
+        {
+            if(number_Ammo > 0 || number_Weapon == FirstWeaponNumber)
+            {
+
+            }
+        }
+
+        if (!myAnim.GetBool("isJump") && !myAnim.GetBool("isDodge") && !isDodge)
         {
             if(myCurWeapon.GetComponent<Weapons>().Curbullet <= 0)
             {
@@ -205,7 +213,7 @@ public class Player : CharacterProperty , IBattle
             if (!isReloading && Input.GetMouseButton(0))
             {
                 PlayerRotate(lookForward);
-                if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf)
+                if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf && canShot)
                 {
                     switch (myCurWeapon.GetComponent<Weapons>().myType)
                     {
@@ -232,8 +240,9 @@ public class Player : CharacterProperty , IBattle
             }
             if (!isReloading && Input.GetMouseButtonDown(0))
             {
+                PlayerRotate(lookForward);
                 isAttacking = true;
-                if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf)
+                if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf && canShot)
                 {
                     switch (myCurWeapon.GetComponent<Weapons>().myType)
                     {
@@ -267,7 +276,7 @@ public class Player : CharacterProperty , IBattle
             }
             if (!isReloading && Input.GetMouseButtonUp(0))
             {
-                if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf)
+                if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf && canShot)
                 {
                     switch (myCurWeapon.GetComponent<Weapons>().myType)
                     {
@@ -311,6 +320,7 @@ public class Player : CharacterProperty , IBattle
     }
     void Jump()
     {
+        canShot = false;
         isAttacking = false;
         myRigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         myAnim.SetTrigger("Jump");
@@ -323,6 +333,7 @@ public class Player : CharacterProperty , IBattle
         canThrowBomb = false;
         isAttacking = false;
         isDodge = true;
+        canShot = false;
         myAnim.SetTrigger("Dodge");
         DodgeDistance = 20.0f;
         while (DodgeDistance > Mathf.Epsilon)
@@ -337,19 +348,13 @@ public class Player : CharacterProperty , IBattle
             yield return null;
         }
         isDodge = false;
+        canShot = true;
     }
     void Grabitem()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if(canThrowBomb) canThrowBomb = false; //수류탄에서 총으로 바꿀때를 대비
-            if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
-            if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
-            if(myCurWeapon != null && !myCurWeapon.activeSelf)
-            {
-                myCurWeapon.SetActive(true);
-            }
-            myAnim.SetTrigger("Swap");
+            SwapToWeapon();
         }
 
         if(myCurGrenade != null && myCurGrenade.activeSelf == false && number_Grenade > 0 && Input.GetKeyDown(KeyCode.Alpha2))
@@ -359,6 +364,7 @@ public class Player : CharacterProperty , IBattle
             if (myCurWeapon != null && myCurWeapon.activeSelf) myCurWeapon.SetActive(false);
             myCurGrenade.SetActive(true);
             myAnim.SetTrigger("Swap");
+            canShot = false;
         }
 
         if (myCurPotion != null && myCurPotion.activeSelf == false && number_Potion > 0 && Input.GetKeyDown(KeyCode.Alpha3))
@@ -368,7 +374,20 @@ public class Player : CharacterProperty , IBattle
             if (myCurWeapon != null && myCurWeapon.activeSelf) myCurWeapon.SetActive(false);
             myCurPotion.SetActive(true);
             myAnim.SetTrigger("Swap");
+            canShot = false;
         }
+    }
+    void SwapToWeapon()
+    {
+        if (canThrowBomb) canThrowBomb = false; //수류탄에서 총으로 바꿀때를 대비
+        if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
+        if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
+        if (myCurWeapon != null && !myCurWeapon.activeSelf)
+        {
+            myCurWeapon.SetActive(true);
+        }
+        myAnim.SetTrigger("Swap");
+        canShot = true;
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -376,6 +395,7 @@ public class Player : CharacterProperty , IBattle
         {
             myAnim.SetBool("isJump", false);
             isJump = false;
+            canShot = true;
         }
 
         
@@ -401,7 +421,7 @@ public class Player : CharacterProperty , IBattle
                     }
                     else
                     {
-                        if (myCurGrenade.GetComponent<Item>().value == item.value)
+                        if (myCurGrenade.GetComponent<Weapons>().Value == item.value)
                             number_Grenade += 1;
                         else
                         {
@@ -418,7 +438,7 @@ public class Player : CharacterProperty , IBattle
                     }
                     else
                     {
-                        if (myCurPotion.GetComponent<Item>().value == item.value)
+                        if (myCurPotion.GetComponent<Useitem_Heal>().Value == item.value)
                             number_Potion += 1;
                         else
                         {
@@ -456,6 +476,7 @@ public class Player : CharacterProperty , IBattle
                 }
                 myCurWeapon = myWeaponlist[number_Weapon];
                 myCurWeapon.GetComponent<Weapons>().Value = number_Weapon;
+                WeaponImageUpdate(number_Weapon);
                 if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
                 if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
                 myAnim.SetTrigger("Swap");
@@ -472,6 +493,7 @@ public class Player : CharacterProperty , IBattle
         {
             number_Weapon = FirstWeaponNumber;
             myCurWeapon = myWeaponlist[number_Weapon];
+            WeaponImageUpdate(number_Weapon);
             if (!myCurWeapon.activeSelf)
             {
                 myAnim.SetTrigger("Swap");
@@ -482,9 +504,22 @@ public class Player : CharacterProperty , IBattle
 
     void GiveWeaponInformaition() //무기 정보 전달
     {
-        CurWeaponInfor.Inst.WeaponNumber = number_Weapon;
-        CurWeaponInfor.Inst.curAmmo = myCurWeapon.GetComponent<Weapons>().Curbullet;
-        CurWeaponInfor.Inst.maxAmmo = myCurWeapon.GetComponent<Weapons>().Maxbullet * number_Ammo;
+        if(CurWeaponInfor.Inst.WeaponNumber != number_Weapon)
+            CurWeaponInfor.Inst.WeaponNumber = number_Weapon;
+        if(CurWeaponInfor.Inst.curAmmo != myCurWeapon.GetComponent<Weapons>().Curbullet)
+            CurWeaponInfor.Inst.curAmmo = myCurWeapon.GetComponent<Weapons>().Curbullet;
+        if(CurWeaponInfor.Inst.maxAmmo != myCurWeapon.GetComponent<Weapons>().Maxbullet * number_Ammo)
+            CurWeaponInfor.Inst.maxAmmo = myCurWeapon.GetComponent<Weapons>().Maxbullet * number_Ammo;
+
+        if (myCurWeapon != null && myCurWeapon.activeSelf) CurWeaponInfor.Inst.isWeapon = true;
+        else CurWeaponInfor.Inst.isWeapon = false;
+        if (myCurGrenade != null && myCurGrenade.activeSelf) CurWeaponInfor.Inst.isGrenade = true;
+        else CurWeaponInfor.Inst.isGrenade = false;
+        if (myCurPotion != null && myCurPotion.activeSelf) CurWeaponInfor.Inst.isPotion = true;
+        else CurWeaponInfor.Inst.isPotion = false;
+
+        CurWeaponInfor.Inst.curGrenade = number_Grenade;
+        CurWeaponInfor.Inst.curPotion = number_Potion;
     }
     void FindZoomVec() //조준점 벡터 구하기
     {
@@ -533,17 +568,44 @@ public class Player : CharacterProperty , IBattle
     public void Fireinthehole()  
     {
         myCurGrenade.GetComponent<Weapons>().ButtonDownOnFire(ZoomPosVec, ThrowPower, !canThrowBomb);
+        number_Grenade--;
+        if(number_Grenade <= 0)
+        {
+            SwapToWeapon();
+        }
     }
 
     void UsePotion()
     {
         myInfo.CurHP += (myInfo.MaxHP - myInfo.CurHP) * (myCurPotion.GetComponent<Useitem_Heal>().healAmount / 100);
         number_Potion--;
+        if(number_Potion <= 0)
+        {
+            SwapToWeapon();
+        }
     }
 
     public void OnDamage(float dmg)
     {
         myInfo.CurHP -= dmg;
+        if(myInfo.CurHP <= Mathf.Epsilon) ChangeState(STATE.Death);
         StartCoroutine(BattleSystem.Damaging(myRenderer));
+    }
+    Coroutine NuckCo = null;
+    public void NuckBack(Vector3 dir, float power = 25)
+    {
+        if (NuckCo != null) StopCoroutine(NuckCo);
+        NuckCo = StartCoroutine(Forcing(power, dir));
+    }
+    IEnumerator Forcing(float power, Vector3 dir)
+    {
+        dir.Normalize();
+        myRigid.AddForce(dir * power, ForceMode.Impulse);
+        yield return new WaitForSeconds(1.0f);
+        myRigid.velocity = Vector3.zero;
+    }
+    void WeaponImageUpdate(int i)
+    {
+        WeaponImage.Inst.ChangeImageIndex(i);
     }
 }

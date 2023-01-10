@@ -8,6 +8,8 @@ public delegate void myAction<T>(T t);
 
 public class Enemy : CharacterProperty
 {
+    public GameObject[] myDropItem; //드롭 아이템
+    public int[] DropPersent; //드롭 아이템 확률
     public enum STATE { Create, Alive, Battle, Death };
     protected enum TYPE { Normal, Boss, Special };
     public NavMeshAgent myNav;
@@ -147,5 +149,24 @@ public class Enemy : CharacterProperty
                 yield return null;
             }
         }
+    }
+
+    protected void DropNormalItem()
+    {
+        if (myDropItem == null) return;
+        for(int i = 0; i < myDropItem.Length; i++)
+        {
+            float per = Random.Range(1, 101);
+            if(per > 0 && per <= DropPersent[i])
+            {
+                Dropping(i);
+            }
+        }
+    }
+    protected void Dropping(int a, int power = 2)
+    {
+        GameObject obj = Instantiate(myDropItem[a], transform.position + Vector3.up*2, Quaternion.identity, null);
+        obj.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-5, 5) * (power / 2), 5 * power
+            , Random.Range(-5, 5) * (power / 2)), ForceMode.Impulse);
     }
 }

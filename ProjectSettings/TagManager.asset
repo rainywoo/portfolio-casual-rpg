@@ -23,8 +23,8 @@ TagManager:
   - BulletCase
   - Item
   - Bullet
-  - 
-  - 
+  - DropItem
+  - CanBreakObject
   - 
   - 
   - 

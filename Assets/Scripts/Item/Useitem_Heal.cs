@@ -12,6 +12,7 @@ public class Useitem_Heal : MonoBehaviour
     public float healAmount;
     public POTION_TYPE potionType = POTION_TYPE.LOW;
     public GameObject HealEffect = null;
+    public int Value;
     void Start()
     {
         switch(potionType)

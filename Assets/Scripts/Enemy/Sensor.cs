@@ -25,18 +25,33 @@ public class Sensor : MonoBehaviour
         if((myTargetMask & 1 << other.gameObject.layer) != 0)
         {
             Player ib = other.GetComponent<Player>();
-            if(ib!=null && ib.IsLive)
+            if(ib!=null && ib.IsLive && myParent.myTarget == null)
             {
-                Target++;
+                Target = 1;
+                myParent.myTarget = other.transform;
                 if (Target >= 1 && myParent.Changable())
                 {
-                    myParentObj.GetComponent<EnemyA>().ChangeState(Enemy.STATE.Battle);
+                    myParent.ChangeState(Enemy.STATE.Battle);
                 }
-                Debug.Log(Target);
             }
         }
     }
-    
+    private void OnTriggerStay(Collider other)
+    {
+        if ((myTargetMask & 1 << other.gameObject.layer) != 0)
+        {
+            Player ib = other.GetComponent<Player>();
+            if (ib != null && ib.IsLive)
+            {
+                myParent.myTarget = other.transform;
+                if (Target <= 0) Target = 1;
+                if (Target >= 1 && myParent.Changable())
+                {
+                    myParent.ChangeState(Enemy.STATE.Battle);
+                }
+            }
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         if((myTargetMask & 1 << other.gameObject.layer) != 0)
@@ -44,10 +59,10 @@ public class Sensor : MonoBehaviour
             Player ib = other.GetComponent<Player>();
             if (ib != null && ib.IsLive)
             {
-                Target--;
+                Target = 0;
                 if (Target <= 0 && myParent.Changable())
                 {
-                    myParentObj.GetComponent<EnemyA>().ChangeState(Enemy.STATE.Alive);
+                    myParent.ChangeState(Enemy.STATE.Alive);
                 }
                 Debug.Log(Target);
             }

@@ -99,6 +99,25 @@ public class Movement1 : MonoBehaviour
         //if (done != null) done();
         done?.Invoke();
     }
+    public static IEnumerator ObjectMovingToPosition(Transform transform, Vector3 target, float MovSpeed)
+    {
+        Vector3 dir = target - transform.position;
+        float dist = dir.magnitude;
+        if (dist <= Mathf.Epsilon) yield break;
+        dir.Normalize();
+
+        while (dist > 0.0f)
+        {
+            float delta = MovSpeed * Time.deltaTime;
+            if (delta > dist)
+            {
+                delta = dist;
+            }
+            dist -= delta;
+            transform.Translate(dir * delta, Space.World);
+            yield return null;
+        }
+    }
 
     protected void FollowTarget(Transform target, float MovSpeed = 1.0f, float RotSpeed = 360.0f, MyAction reached = null)
     {

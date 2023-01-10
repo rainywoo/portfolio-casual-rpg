@@ -8,8 +8,15 @@ public class SceneManager : MonoBehaviour
     public static SceneManager Inst;
     public Transform myHpBar;
     public Transform HpBars;
+    public Transform AmmoText;
     public TMPro.TMP_Text curAmmo;
     public TMPro.TMP_Text maxAmmo;
+    public Transform GrenadeText;
+    public TMPro.TMP_Text GrenadeAmmo;
+    public Transform PotionText;
+    public TMPro.TMP_Text PotionAmmo;
+    public Transform closeGre;
+    public Transform closePot;
     // Start is called before the first frame update
     void Awake()
     {

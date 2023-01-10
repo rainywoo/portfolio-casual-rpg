@@ -54,7 +54,11 @@ public class Bullet : MonoBehaviour
             if (ib != null && ib.IsLive)
             {
                 ib.OnDamage(Damage);
+                Destroy(gameObject);
             }
+        }
+        if(other.gameObject.layer == LayerMask.NameToLayer("Floor") || other.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
             Destroy(gameObject);
         }
     }
