@@ -49,7 +49,6 @@ public class EnemyBMissile : MonoBehaviour
                 ib?.OnDamage(Damage);
             }
             Bomb();
-            Destroy(gameObject);
         }
     }
 

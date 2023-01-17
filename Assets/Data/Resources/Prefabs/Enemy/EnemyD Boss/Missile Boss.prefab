@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 832141567}
   - component: {fileID: 832141569}
   - component: {fileID: 832141568}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4824,7 +4824,7 @@ GameObject:
   - component: {fileID: 6388386718794756088}
   - component: {fileID: 6388386718794756089}
   - component: {fileID: 2554702253856488266}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Missile Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4893,7 +4893,7 @@ MonoBehaviour:
   BombEfc: {fileID: 4404165828299477317, guid: e1e8149410a8cf94f9b6e8be042d4ab3, type: 3}
   HitMask:
     serializedVersion: 2
-    m_Bits: 1472
+    m_Bits: 9664
 --- !u!1 &8658073398940226509
 GameObject:
   m_ObjectHideFlags: 0
@@ -4905,7 +4905,7 @@ GameObject:
   - component: {fileID: 4270780652516418581}
   - component: {fileID: 1071058148353115309}
   - component: {fileID: 2782335448421508400}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Mesh Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}

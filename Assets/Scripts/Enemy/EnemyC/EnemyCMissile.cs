@@ -17,7 +17,7 @@ public class EnemyCMissile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MoveSpeed = 100.0f;
+        MoveSpeed = 50.0f;
     }
 
     // Update is called once per frame

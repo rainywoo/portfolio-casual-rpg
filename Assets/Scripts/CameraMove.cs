@@ -71,7 +71,7 @@ public class CameraMove : MonoBehaviour
             curCamDist = Vector3.Distance(transform.position, hit.point + myCam.forward * OffsetDist);
         }
 
-        myCam.transform.localPosition = new Vector3(0, 4f, -curCamDist);
+        myCam.transform.localPosition = new Vector3(0, 1f, -curCamDist);
     }
     public void CameraShake(float power = 1.0f, int count = 4)
     {

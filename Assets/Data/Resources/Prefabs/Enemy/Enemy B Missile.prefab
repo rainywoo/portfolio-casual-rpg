@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 544341215}
   - component: {fileID: 544341217}
   - component: {fileID: 544341216}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4824,7 +4824,7 @@ GameObject:
   - component: {fileID: 1974399432051153485}
   - component: {fileID: 1974399432051153484}
   - component: {fileID: 1974399432051153483}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Enemy B Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4892,7 +4892,7 @@ MonoBehaviour:
   myTarget: {fileID: 0}
   HitMask:
     serializedVersion: 2
-    m_Bits: 448
+    m_Bits: 8640
   Damage: 0
   BombEf: {fileID: 5093791141367596319, guid: 0e817423e903033489e73e26851eebae, type: 3}
 --- !u!1 &7827248228211661041
@@ -4906,7 +4906,7 @@ GameObject:
   - component: {fileID: 3457782965593042729}
   - component: {fileID: 1902056844351491985}
   - component: {fileID: 3613162816035352076}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Mesh Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}

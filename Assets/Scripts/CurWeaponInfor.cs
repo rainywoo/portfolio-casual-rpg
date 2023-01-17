@@ -33,38 +33,38 @@ public class CurWeaponInfor : MonoBehaviour
     {
         if (isWeapon)
         {
-            SceneManager.Inst.AmmoText.gameObject.SetActive(true);
-            SceneManager.Inst.curAmmo.text = curAmmo.ToString();
+            SceneManagerScript.Inst.AmmoText.gameObject.SetActive(true);
+            SceneManagerScript.Inst.curAmmo.text = curAmmo.ToString();
             if (WeaponNumber == 0)
             {
-                SceneManager.Inst.maxAmmo.text = "¡Ä";
+                SceneManagerScript.Inst.maxAmmo.text = "¡Ä";
             }
-            else SceneManager.Inst.maxAmmo.text = maxAmmo.ToString();
+            else SceneManagerScript.Inst.maxAmmo.text = maxAmmo.ToString();
         }
-        else SceneManager.Inst.AmmoText.gameObject.SetActive(false);
+        else SceneManagerScript.Inst.AmmoText.gameObject.SetActive(false);
 
         if (isGrenade)
         {
-            SceneManager.Inst.GrenadeText.gameObject.SetActive(true);
-            SceneManager.Inst.GrenadeAmmo.text = curGrenade.ToString();
+            SceneManagerScript.Inst.GrenadeText.gameObject.SetActive(true);
+            SceneManagerScript.Inst.GrenadeAmmo.text = curGrenade.ToString();
         }
         else
         {
-            SceneManager.Inst.GrenadeText.gameObject.SetActive(false);
+            SceneManagerScript.Inst.GrenadeText.gameObject.SetActive(false);
         }
         if (isPotion)
         {
-            SceneManager.Inst.PotionText.gameObject.SetActive(true);
-            SceneManager.Inst.PotionAmmo.text = curPotion.ToString();
+            SceneManagerScript.Inst.PotionText.gameObject.SetActive(true);
+            SceneManagerScript.Inst.PotionAmmo.text = curPotion.ToString();
         }
         else
         {
-            SceneManager.Inst.PotionText.gameObject.SetActive(false);
+            SceneManagerScript.Inst.PotionText.gameObject.SetActive(false);
         }
 
-        if (curGrenade <= 0) SceneManager.Inst.closeGre.gameObject.SetActive(true);
-        else SceneManager.Inst.closeGre.gameObject.SetActive(false);
-        if (curPotion <= 0) SceneManager.Inst.closePot.gameObject.SetActive(true);
-        else SceneManager.Inst.closePot.gameObject.SetActive(false);
+        if (curGrenade <= 0) SceneManagerScript.Inst.closeGre.gameObject.SetActive(true);
+        else SceneManagerScript.Inst.closeGre.gameObject.SetActive(false);
+        if (curPotion <= 0) SceneManagerScript.Inst.closePot.gameObject.SetActive(true);
+        else SceneManagerScript.Inst.closePot.gameObject.SetActive(false);
     }
 }

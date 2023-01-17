@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1830298868975488579}
   - component: {fileID: 7121118332443888617}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 5752040970722866892}
   - component: {fileID: 6246531589241455514}
   - component: {fileID: 6586129887628248524}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bullet Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,6 +299,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fae0ef5db60c92e4ba4dc140e6d759f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoveSpeed: 0
+  Damage: 0
+  criticalChance: 0
 --- !u!54 &6246531589241455514
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -338,7 +341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2425159844139313561}
   - component: {fileID: 1552361481642451463}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -478,7 +481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7439015242013997576}
   - component: {fileID: 3700629364764436442}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GameObject (2)
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -618,7 +621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6551820991148361162}
   - component: {fileID: 1488896411724046614}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GameObject (3)
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}

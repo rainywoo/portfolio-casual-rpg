@@ -77,7 +77,15 @@ public class Player : CharacterProperty , IBattle
     public STATE myState = STATE.Create;
     private void Awake()
     {
-        Inst = this;
+        if(Inst != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Inst = this;
+        }
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {
@@ -90,7 +98,7 @@ public class Player : CharacterProperty , IBattle
     }
     private void FixedUpdate()
     {
-        isWall = Physics.Raycast(transform.position, transform.forward, 5, LayerMask.GetMask("Wall"));
+        isWall = Physics.Raycast(transform.position, transform.forward, 2, LayerMask.GetMask("Wall"));
         FixedStateProcess();
     }
 
