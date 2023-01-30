@@ -77,15 +77,7 @@ public class Player : CharacterProperty , IBattle
     public STATE myState = STATE.Create;
     private void Awake()
     {
-        if(Inst != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Inst = this;
-        }
-        DontDestroyOnLoad(gameObject);
+        Inst = this;
     }
     void Start()
     {

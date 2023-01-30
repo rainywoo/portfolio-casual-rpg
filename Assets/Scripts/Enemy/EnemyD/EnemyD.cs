@@ -33,6 +33,7 @@ public class EnemyD : Enemy, IBattle
     public Transform[] MissileSpawnPos = new Transform[2];
     public Transform myRushAttackZone = null;
     public Transform myJumpAttackZone = null;
+    public GameObject ClearObj = null;
 
     bool CanStun = false;
     bool isStun = false;
@@ -83,6 +84,7 @@ public class EnemyD : Enemy, IBattle
             case STATE.Death:
                 StopAllCoroutines();
                 OnDeath();
+                if(!ClearObj.activeSelf) ClearObj.SetActive(true);
                 break;
         }
     }
@@ -94,21 +96,21 @@ public class EnemyD : Enemy, IBattle
         coRot = StartCoroutine(Movement1.Rotating(transform, myTarget.position, RotSpeed));
         switch (DoPattern)
         {
-            //case 1:
-            //    yield return StartCoroutine(MissileAttackPattern());
-            //    break;
-            //case 2:
-            //    yield return StartCoroutine(JomuSpawnPattern());
-            //    break;
-            //case 3:
-            //    yield return StartCoroutine(JumpShotPattern());
-            //    break;
-            //case 4:
-            //    yield return StartCoroutine(RushPattern());
-            //    break;
-            //case 5:
-            //    yield return StartCoroutine(RockShotPattern());
-            //    break;
+            case 1:
+                yield return StartCoroutine(MissileAttackPattern());
+                break;
+            case 2:
+                yield return StartCoroutine(JomuSpawnPattern());
+                break;
+            case 3:
+                yield return StartCoroutine(JumpShotPattern());
+                break;
+            case 4:
+                yield return StartCoroutine(RushPattern());
+                break;
+            case 5:
+                yield return StartCoroutine(RockShotPattern());
+                break;
             default:
                 yield return StartCoroutine(RushPattern());
                 break;
@@ -365,6 +367,10 @@ public class EnemyD : Enemy, IBattle
         myAnim.SetBool("DoStun", false);
         yield return new WaitForSeconds(0.2f);
         StartCoroutine(Think());
+    }
+    public bool isBattle()
+    {
+        return (myState == STATE.Alive || myState == STATE.Battle) ? true : false;
     }
     private void OnCollisionEnter(Collision collision)
     {

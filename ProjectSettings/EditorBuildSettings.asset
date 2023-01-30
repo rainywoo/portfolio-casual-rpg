@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 6dd1301e53869a14b9612e8c8d3fa967
+  - enabled: 1
     path: Assets/Scenes/MainVil.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/FirstDungeon.unity
     guid: a3eced3439a1edf4d9e836c71353451d
   - enabled: 1
-    path: Assets/Scenes/DemoScene.unity
-    guid: d8f213b28287d8b4dab42cf4a34f94e5
+    path: Assets/Scenes/FirstBossRoom.unity
+    guid: 91fe7921175aca24da55f58978fe9dbf
   m_configObjects: {}
