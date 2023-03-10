@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7118358faa9cc724ea7bb62f7a9f6570, type: 3}
   m_Name: HandGun
   m_EditorClassIdentifier: 
-  MoveSpeed: 30
+  MoveSpeed: 50
   AttackDelay: 0
-  AttackDamage: 10
+  AttackDamage: 1000
   criticalChance: 10
   MaxBullet: 12

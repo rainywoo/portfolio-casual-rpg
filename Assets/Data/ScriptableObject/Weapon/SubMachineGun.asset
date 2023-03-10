@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7118358faa9cc724ea7bb62f7a9f6570, type: 3}
   m_Name: SubMachineGun
   m_EditorClassIdentifier: 
-  MoveSpeed: 45
+  MoveSpeed: 60
   AttackDelay: 0.1
   AttackDamage: 10
   criticalChance: 10

@@ -17,4 +17,8 @@ public class DontDestroyPlayer : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
+    private void Start()
+    {
+        transform.gameObject.SetActive(true);
+    }
 }

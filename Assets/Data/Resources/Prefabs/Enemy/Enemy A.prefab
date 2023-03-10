@@ -222,7 +222,8 @@ MonoBehaviour:
   - {fileID: 856051739913739562, guid: 91985da28fe124946981e4d13d021939, type: 3}
   - {fileID: 8585179287510410319, guid: d9e50fbf2d00c6c4ab189e267fc3e618, type: 3}
   - {fileID: 8585179287510410319, guid: d9e50fbf2d00c6c4ab189e267fc3e618, type: 3}
-  DropPersent: 64000000500000003c0000003c000000
+  - {fileID: 4585404918667707833, guid: 1d1d2ffb72b1da44e94238defafbb4dc, type: 3}
+  DropPersent: 64000000500000003c0000003c0000003c000000
   myNav: {fileID: 0}
   myHeadPos: {fileID: 0}
   myTarget: {fileID: 0}
@@ -234,7 +235,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   CanMove: 1
-  isSpawned: 0
 --- !u!114 &3939930156116028825
 MonoBehaviour:
   m_ObjectHideFlags: 0

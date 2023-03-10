@@ -27,7 +27,7 @@ public class EnemyDSensor : MonoBehaviour
             if (ib != null && ib.IsLive && myParent.myTarget == null)
             {
                 myParent.myTarget = other.transform;
-                if (myParent.isBattle() && myParent.IsLive)
+                if (myParent.notBattle())
                 {
                     myParent.ChangeState(Enemy.STATE.Alive);
                 }
@@ -36,15 +36,18 @@ public class EnemyDSensor : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if ((myTargetMask & 1 << other.gameObject.layer) != 0)
+        if(myParent.myTarget == null)
         {
-            Player ib = other.GetComponent<Player>();
-            if (ib != null && ib.IsLive)
+            if ((myTargetMask & 1 << other.gameObject.layer) != 0)
             {
-                myParent.myTarget = other.transform;
-                if (myParent.isBattle() && myParent.IsLive)
+                Player ib = other.GetComponent<Player>();
+                if (ib != null && ib.IsLive)
                 {
-                    myParent.ChangeState(Enemy.STATE.Alive);
+                    myParent.myTarget = other.transform;
+                    if (myParent.notBattle())
+                    {
+                        myParent.ChangeState(Enemy.STATE.Alive);
+                    }
                 }
             }
         }

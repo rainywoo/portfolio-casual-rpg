@@ -33,9 +33,12 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = characterBody.position;
-        LookDistance();
-        LookAround();
+        if (Time.timeScale != 0)
+        {
+            transform.position = characterBody.position;
+            LookDistance();
+            LookAround();
+        }
     }
 
     private void LookAround()

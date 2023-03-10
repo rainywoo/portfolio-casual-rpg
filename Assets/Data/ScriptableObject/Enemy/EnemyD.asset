@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EnemyD
   m_EditorClassIdentifier: 
   MaxHp: 2000
-  RunSpeed: 20
-  WalkSpeed: 10
+  RunSpeed: 10
+  WalkSpeed: 5
   Power: 15
   MaxMp: 0
   defense: 10

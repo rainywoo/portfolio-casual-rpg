@@ -37,12 +37,12 @@ public class Player : CharacterProperty , IBattle
     public Transform myHpBar = null;
 
     [SerializeField] float handRange = 1.0f;
-    float MoveSpeed = 20.0f;
+    float MoveSpeed = 10.0f;
     float WalkSpeed;
     float RotateSpeed = 5.0f;
-    float jumpPower = 15.0f;
+    float jumpPower = 10.0f;
     float DodgeDistance;
-    float DodgeSpeed = 40.0f;
+    float DodgeSpeed = 20.0f;
     float ThrowPower = 50.0f;
 
     float x;
@@ -55,16 +55,23 @@ public class Player : CharacterProperty , IBattle
     bool isWall;
     bool isDodge;
     bool canThrowBomb;
+    public bool isWeapon;
+    public bool isGrenade;
+    public bool isPotion;
     [SerializeField] bool isReloading;
     [SerializeField] bool isAttacking;
     bool canShot;
 
-    [SerializeField] int number_Grenade = 0;
-    [SerializeField] int number_Potion = 0;
-    [SerializeField] int number_Ammo = 0;
-    [SerializeField] int number_Weapon = 0;
-    int FirstWeaponNumber = 0;
+    public int number_Grenade = 0;
+    public int number_Potion = 0;
+    public int number_Ammo = 0;
+    public int number_Weapon = 0;
+    public int FirstWeaponNumber = 0;
 
+    public int cur_number_Weapon = 0;
+    public int max_number_Weapon = 0;
+
+    Inventory inven;
 
     Vector3 moveDir = Vector3.zero;
     Vector3 lookForward = Vector3.zero;
@@ -78,6 +85,7 @@ public class Player : CharacterProperty , IBattle
     private void Awake()
     {
         Inst = this;
+        inven = Inventory.Inst;
     }
     void Start()
     {
@@ -90,16 +98,18 @@ public class Player : CharacterProperty , IBattle
     }
     private void FixedUpdate()
     {
-        isWall = Physics.Raycast(transform.position, transform.forward, 2, LayerMask.GetMask("Wall"));
+        isWall = Physics.Raycast(transform.position, transform.forward, 3, LayerMask.GetMask("Wall"));
         FixedStateProcess();
     }
 
     // Update is called once per frame
     void Update()
     {
-        StateProcess();
-        GiveWeaponInformaition();
-}
+        if (Time.timeScale != 0)
+        {
+            StateProcess();
+        }
+    }
     
     void ChangeState(STATE t)
     {
@@ -142,6 +152,7 @@ public class Player : CharacterProperty , IBattle
                 InputProcess(); //Input 기능들 모음
                 WeaponReset();
                 FindZoomVec();
+                GiveWeaponInformaition();
 
                 if (isAttacking)
                 {
@@ -168,6 +179,7 @@ public class Player : CharacterProperty , IBattle
                 AnimSetting();
                 break;
             case STATE.Death:
+                GiveWeaponInformaition();
                 break;
         }
     }
@@ -485,6 +497,21 @@ public class Player : CharacterProperty , IBattle
                 Destroy(item.gameObject);
             }
         }
+        //if (other.CompareTag("accessories"))
+        //{
+        //    if (Input.GetKey(KeyCode.E))
+        //    {
+        //        CanInvenItem canInvenItem = other.GetComponent<CanInvenItem>();
+        //        if(canInvenItem != null)
+        //        {
+        //            Accessories item = canInvenItem.GetItem();
+        //            inven.Additem(item);
+        //            canInvenItem.DestroyItem();
+        //        }
+        //        if (inven.Additem(canInvenItem.GetItem()))
+        //            canInvenItem.DestroyItem();
+        //    }
+        //}
     }
 
     void WeaponReset() // 총알 다 쓰면 기본총으로 돌아오기
@@ -504,22 +531,15 @@ public class Player : CharacterProperty , IBattle
 
     void GiveWeaponInformaition() //무기 정보 전달
     {
-        if(CurWeaponInfor.Inst.WeaponNumber != number_Weapon)
-            CurWeaponInfor.Inst.WeaponNumber = number_Weapon;
-        if(CurWeaponInfor.Inst.curAmmo != myCurWeapon.GetComponent<Weapons>().Curbullet)
-            CurWeaponInfor.Inst.curAmmo = myCurWeapon.GetComponent<Weapons>().Curbullet;
-        if(CurWeaponInfor.Inst.maxAmmo != myCurWeapon.GetComponent<Weapons>().Maxbullet * number_Ammo)
-            CurWeaponInfor.Inst.maxAmmo = myCurWeapon.GetComponent<Weapons>().Maxbullet * number_Ammo;
+        max_number_Weapon = myCurWeapon.GetComponent<Weapons>().Maxbullet;
+        cur_number_Weapon = myCurWeapon.GetComponent<Weapons>().Curbullet;
 
-        if (myCurWeapon != null && myCurWeapon.activeSelf) CurWeaponInfor.Inst.isWeapon = true;
-        else CurWeaponInfor.Inst.isWeapon = false;
-        if (myCurGrenade != null && myCurGrenade.activeSelf) CurWeaponInfor.Inst.isGrenade = true;
-        else CurWeaponInfor.Inst.isGrenade = false;
-        if (myCurPotion != null && myCurPotion.activeSelf) CurWeaponInfor.Inst.isPotion = true;
-        else CurWeaponInfor.Inst.isPotion = false;
-
-        CurWeaponInfor.Inst.curGrenade = number_Grenade;
-        CurWeaponInfor.Inst.curPotion = number_Potion;
+        if (myCurWeapon != null && myCurWeapon.activeSelf) isWeapon = true;
+        else isWeapon = false;
+        if (myCurGrenade != null && myCurGrenade.activeSelf) isGrenade = true;
+        else isGrenade = false;
+        if (myCurPotion != null && myCurPotion.activeSelf) isPotion = true;
+        else isPotion = false;
     }
     void FindZoomVec() //조준점 벡터 구하기
     {
@@ -590,6 +610,7 @@ public class Player : CharacterProperty , IBattle
         myInfo.CurHP -= dmg;
         if(myInfo.CurHP <= Mathf.Epsilon) ChangeState(STATE.Death);
         StartCoroutine(BattleSystem.Damaging(myRenderer));
+        CameraMove.Inst.CameraShake();
     }
     Coroutine NuckCo = null;
     public void NuckBack(Vector3 dir, float power = 25)

@@ -83,8 +83,7 @@ public class EnemyD : Enemy, IBattle
                 break;
             case STATE.Death:
                 StopAllCoroutines();
-                OnDeath();
-                if(!ClearObj.activeSelf) ClearObj.SetActive(true);
+                StartCoroutine(OnDeath());
                 break;
         }
     }
@@ -139,6 +138,7 @@ public class EnemyD : Enemy, IBattle
     {
         myAnim.SetTrigger("Die");
         yield return new WaitForSeconds(4.0f);
+        if (!ClearObj.activeSelf) ClearObj.SetActive(true);
         Destroy(gameObject);
     }
     IEnumerator StartSin()
@@ -155,7 +155,10 @@ public class EnemyD : Enemy, IBattle
     {
         if (IsLive && myState != STATE.Create && myState != STATE.Alive)
         {
-            if (!isStun) myStat.UpdateHp(-dmg);
+            if (!isStun)
+            {
+                myStat.UpdateHp(-dmg);
+            }
             else if (isStun) myStat.UpdateHp(-dmg * 2.5f);
             StartCoroutine(BattleSystem.Damaging(myRenderer));
             if (myState != STATE.Battle)
@@ -368,9 +371,9 @@ public class EnemyD : Enemy, IBattle
         yield return new WaitForSeconds(0.2f);
         StartCoroutine(Think());
     }
-    public bool isBattle()
+    public bool notBattle()
     {
-        return (myState == STATE.Alive || myState == STATE.Battle) ? true : false;
+        return myState == STATE.Create;
     }
     private void OnCollisionEnter(Collision collision)
     {
