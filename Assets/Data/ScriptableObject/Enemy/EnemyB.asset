@@ -21,3 +21,4 @@ MonoBehaviour:
   Gold: 10
   AttackDistance: 40
   AttackSpeed: 3
+  level: 5

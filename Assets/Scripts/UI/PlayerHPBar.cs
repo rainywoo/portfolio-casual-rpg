@@ -7,7 +7,8 @@ public class PlayerHPBar : MonoBehaviour
 {
     // Start is called before the first frame update
     public Slider myHpBar = null;
-    public Transform myTarget = null;
+    public Player myTarget = null;
+    public TMPro.TMP_Text myText = null;
 
     void Start()
     {
@@ -17,6 +18,7 @@ public class PlayerHPBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        myHpBar.value = myTarget.GetComponent<Player>().myInfo.CurHP / myTarget.GetComponent<Player>().myInfo.MaxHP;
+        myHpBar.value = myTarget.myInfo.CurHP / myTarget.myInfo.MaxHP;
+        myText.text = (myTarget.myInfo.CurHP.ToString()) + " / " + myTarget.myInfo.MaxHP.ToString().;
     }
 }

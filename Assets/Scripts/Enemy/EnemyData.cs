@@ -14,6 +14,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] int Gold;
     [SerializeField] float AttackDistance;
     [SerializeField] float AttackSpeed;
+    [SerializeField] int level;
 
     public float HP { get => MaxHp; }
     public float runSpeed { get => RunSpeed; }
@@ -24,4 +25,6 @@ public class EnemyData : ScriptableObject
     public int gold { get => Gold; }
     public float AttackDist { get => AttackDistance; }
     public float Attackspeed { get => AttackSpeed; }
+
+    public int Level { get => level; }
 }

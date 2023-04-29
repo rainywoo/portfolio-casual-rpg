@@ -151,7 +151,7 @@ public class Enemy : CharacterProperty
         }
     }
 
-    protected void DropNormalItem()
+    protected void DropNormalItem(float exp)
     {
         if (myDropItem == null) return;
         for(int i = 0; i < myDropItem.Length; i++)
@@ -159,13 +159,15 @@ public class Enemy : CharacterProperty
             float per = Random.Range(1, 101);
             if(per > 0 && per <= DropPersent[i])
             {
-                Dropping(i);
+                Dropping(i, exp);
             }
         }
     }
-    protected void Dropping(int a, int power = 2)
+    protected void Dropping(int a,float exp, int power = 2)
     {
         GameObject obj = Instantiate(myDropItem[a], transform.position + Vector3.up*2, Quaternion.identity, null);
+        if (myDropItem[a].CompareTag("Exp"))
+            obj.gameObject.GetComponent<Exp>().myExp = exp; 
         obj.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-5, 5) * (power / 2), 5 * power
             , Random.Range(-5, 5) * (power / 2)), ForceMode.Impulse);
     }

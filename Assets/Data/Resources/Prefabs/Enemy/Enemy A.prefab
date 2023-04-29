@@ -223,7 +223,8 @@ MonoBehaviour:
   - {fileID: 8585179287510410319, guid: d9e50fbf2d00c6c4ab189e267fc3e618, type: 3}
   - {fileID: 8585179287510410319, guid: d9e50fbf2d00c6c4ab189e267fc3e618, type: 3}
   - {fileID: 4585404918667707833, guid: 1d1d2ffb72b1da44e94238defafbb4dc, type: 3}
-  DropPersent: 64000000500000003c0000003c0000003c000000
+  - {fileID: 3427719454159982855, guid: b77d355f033458347bda020eb0f8679f, type: 3}
+  DropPersent: 64000000500000003c0000003c0000003c00000064000000
   myNav: {fileID: 0}
   myHeadPos: {fileID: 0}
   myTarget: {fileID: 0}
@@ -257,6 +258,8 @@ MonoBehaviour:
   <Gold>k__BackingField: 0
   <AttackRange>k__BackingField: 0
   <AttackSpeed>k__BackingField: 0
+  <Level>k__BackingField: 0
+  <DropExp>k__BackingField: 0
 --- !u!1 &1871562320138907427
 GameObject:
   m_ObjectHideFlags: 0

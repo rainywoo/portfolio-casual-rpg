@@ -6,6 +6,7 @@ public class CanInvenItem : MonoBehaviour
 {
     public Accessories accessorie;
     public int DBIndex;
+    public float breakTime = 20.0f;
 
     public void Setitem(Accessories _accessorie)
     {
@@ -37,5 +38,10 @@ public class CanInvenItem : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.up * 35 * Time.deltaTime, Space.World);
+        breakTime -= Time.deltaTime;
+        if(breakTime <= 0.0f)
+        {
+            Destroy(gameObject);
+        }
     }
 }

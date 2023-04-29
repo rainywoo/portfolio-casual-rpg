@@ -667,6 +667,8 @@ MonoBehaviour:
   <Gold>k__BackingField: 0
   <AttackRange>k__BackingField: 0
   <AttackSpeed>k__BackingField: 0
+  <Level>k__BackingField: 0
+  <DropExp>k__BackingField: 0
 --- !u!114 &5880562952778317203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,8 +681,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab34da4c9546c1341a2ea15045f6ab04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myDropItem: []
-  DropPersent: 
+  myDropItem:
+  - {fileID: 3427719454159982855, guid: b77d355f033458347bda020eb0f8679f, type: 3}
+  DropPersent: 64000000
   myNav: {fileID: 0}
   myHeadPos: {fileID: 0}
   myStat: {fileID: 5880562952778317204}

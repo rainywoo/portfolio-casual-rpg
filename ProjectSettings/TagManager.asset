@@ -9,6 +9,7 @@ TagManager:
   - CanJump
   - FxTemporaire
   - accessories
+  - Exp
   layers:
   - Default
   - TransparentFX

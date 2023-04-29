@@ -14,6 +14,8 @@ public class EnemyStat : MonoBehaviour
     [field: SerializeField] public int Gold { get; private set; }
     [field: SerializeField] public float AttackRange { get; private set; }
     [field: SerializeField] public float AttackSpeed { get; private set; }
+    [field: SerializeField] public int Level { get; private set; }
+    [field: SerializeField] public float DropExp { get; private set; }
 
     private void Start()
     {
@@ -30,6 +32,8 @@ public class EnemyStat : MonoBehaviour
         Gold = myData.gold;
         AttackRange = myData.AttackDist;
         AttackSpeed = myData.Attackspeed;
+        Level = myData.Level;
+        DropExp = (float)(Level * ( 1 + (0.1 * Random.Range(1, 8))));
     }
 
     public void UpdateHp(float v)

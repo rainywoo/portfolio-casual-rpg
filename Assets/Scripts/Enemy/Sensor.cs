@@ -22,6 +22,7 @@ public class Sensor : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        //센서 안에 플레이어가 들어오면 타겟 수를 늘리고 몬스터를 배틀상태로 만듦
         if((myTargetMask & 1 << other.gameObject.layer) != 0)
         {
             Player ib = other.GetComponent<Player>();

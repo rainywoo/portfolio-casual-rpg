@@ -8,6 +8,7 @@ public class Item : MonoBehaviour
     public enum TYPE { Ammo, Coin, Grenade, Heart, Weapon };
     public TYPE myType;
     public int value;
+    public float breakTime = 20.0f;
     void Start()
     {
         
@@ -17,5 +18,8 @@ public class Item : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.up * 35 * Time.deltaTime,Space.World);
+        breakTime -= Time.deltaTime;
+        if (breakTime <= 0.0f)
+            Destroy(gameObject);
     }
 }

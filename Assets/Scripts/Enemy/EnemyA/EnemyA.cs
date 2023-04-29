@@ -74,7 +74,7 @@ public class EnemyA : Enemy , IBattle
                 if (myAnim.GetBool("isMoving"))
                     myAnim.SetBool("isMoving", CanMove);
                 StartCoroutine(OnDeath());
-                DropNormalItem();
+                DropNormalItem(myStat.DropExp);
                 break;
         }
         

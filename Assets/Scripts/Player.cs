@@ -77,6 +77,9 @@ public class Player : CharacterProperty , IBattle
     Vector3 lookForward = Vector3.zero;
     Vector3 ZoomPosVec = Vector3.zero;
 
+    //이펙트 모음
+    public GameObject levelUpEfc = null;
+
     public enum STATE
     {
         Create, Alive, Death
@@ -208,21 +211,16 @@ public class Player : CharacterProperty , IBattle
 
         if(!myAnim.GetBool("isDodge") && !myAnim.GetBool("isJump"))Grabitem();
 
-        if (!isReloading && !isAttacking && myCurWeapon.activeSelf)
-        {
-            if(number_Ammo > 0 || number_Weapon == FirstWeaponNumber)
-            {
-
-            }
-        }
-
         if (!myAnim.GetBool("isJump") && !myAnim.GetBool("isDodge") && !isDodge)
         {
+            //점프중이거나 구르기중에 작동 불가
+
             if(myCurWeapon.GetComponent<Weapons>().Curbullet <= 0)
             {
+                //탄약이 없으면 쏘는중이 아님
                 isAttacking = false;
             }
-            if (!isReloading && Input.GetMouseButton(0))
+            if (!isReloading && Input.GetMouseButton(0)) //발사 기능
             {
                 PlayerRotate(lookForward);
                 if (myCurWeapon != null && myCurWeapon.GetComponent<Weapons>().Curbullet > 0 && myCurWeapon.activeSelf && canShot)
@@ -241,14 +239,6 @@ public class Player : CharacterProperty , IBattle
                             break;
                     }
                 }
-                if (myCurGrenade != null && number_Grenade > 0 && myCurGrenade.activeSelf)
-                {
-
-                }
-                if (myCurPotion != null && number_Potion > 0 && myCurPotion.activeSelf)
-                {
-
-                }
             }
             if (!isReloading && Input.GetMouseButtonDown(0))
             {
@@ -264,14 +254,14 @@ public class Player : CharacterProperty , IBattle
                             {
                                 myCurWeapon.GetComponent<Weapons>().OnFire(ZoomPosVec);
                                 myAnim.SetTrigger("Swing");
-                            }
+                            } //근접 휘두르기
                             break;
                         case Weapons.WEAPONTYPE.Weapon:
                             if (number_Weapon == FirstWeaponNumber)
                             {
                                 myCurWeapon.GetComponent<Weapons>().ButtonDownOnFire(ZoomPosVec);
                                 myAnim.SetTrigger("Shot");
-                            }
+                            } //연속발사
                             break;
                     }
                 }
@@ -414,7 +404,32 @@ public class Player : CharacterProperty , IBattle
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == ("Item"))
+        GetItem(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.transform.tag == ("Weapon")) //무기 얻기
+            GetWeapon(other);
+        //if (other.CompareTag("accessories"))
+        //{
+        //    if (Input.GetKey(KeyCode.E))
+        //    {
+        //        CanInvenItem canInvenItem = other.GetComponent<CanInvenItem>();
+        //        if(canInvenItem != null)
+        //        {
+        //            Accessories item = canInvenItem.GetItem();
+        //            inven.Additem(item);
+        //            canInvenItem.DestroyItem();
+        //        }
+        //        if (inven.Additem(canInvenItem.GetItem()))
+        //            canInvenItem.DestroyItem();
+        //    }
+        //}
+    }
+    void GetItem(Collider other)
+    {
+        if (other.transform.tag == ("Item")) // 아이템 얻기
         {
             Item item = other.transform.GetComponent<Item>();
             switch (item.myType)
@@ -464,56 +479,37 @@ public class Player : CharacterProperty , IBattle
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    void GetWeapon(Collider other)
     {
-        if(other.transform.tag == ("Weapon"))
+        Debug.Log(other.transform.GetComponent<Item>().value);
+
+        if (Input.GetKey(KeyCode.E))
         {
-            Debug.Log(other.transform.GetComponent<Item>().value);
-
-            if (Input.GetKey(KeyCode.E))
+            Item item = other.GetComponent<Item>();
+            number_Weapon = item.value;
+            if (myCurWeapon != null)
             {
-                Item item = other.GetComponent<Item>();
-                number_Weapon = item.value;
-                if (myCurWeapon != null)
+                if (myCurWeapon == myWeaponlist[number_Weapon])
                 {
-                    if (myCurWeapon == myWeaponlist[number_Weapon])
-                    {
-                        number_Ammo += 1;
-                    }
-                    else
-                    {
-                        myCurWeapon.SetActive(false);
-                        number_Ammo = 1;
-                    }
+                    number_Ammo += 1;
                 }
-                myCurWeapon = myWeaponlist[number_Weapon];
-                myCurWeapon.GetComponent<Weapons>().Value = number_Weapon;
-                WeaponImageUpdate(number_Weapon);
-                if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
-                if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
-                myAnim.SetTrigger("Swap");
-                myCurWeapon.SetActive(true);
-                Weapons.Inst.BulletSetup();
-                Destroy(item.gameObject);
+                else
+                {
+                    myCurWeapon.SetActive(false);
+                    number_Ammo = 1;
+                }
             }
+            myCurWeapon = myWeaponlist[number_Weapon];
+            myCurWeapon.GetComponent<Weapons>().Value = number_Weapon;
+            WeaponImageUpdate(number_Weapon);
+            if (myCurGrenade != null && myCurGrenade.activeSelf) myCurGrenade.SetActive(false);
+            if (myCurPotion != null && myCurPotion.activeSelf) myCurPotion.SetActive(false);
+            myAnim.SetTrigger("Swap");
+            myCurWeapon.SetActive(true);
+            Weapons.Inst.BulletSetup();
+            Destroy(item.gameObject);
         }
-        //if (other.CompareTag("accessories"))
-        //{
-        //    if (Input.GetKey(KeyCode.E))
-        //    {
-        //        CanInvenItem canInvenItem = other.GetComponent<CanInvenItem>();
-        //        if(canInvenItem != null)
-        //        {
-        //            Accessories item = canInvenItem.GetItem();
-        //            inven.Additem(item);
-        //            canInvenItem.DestroyItem();
-        //        }
-        //        if (inven.Additem(canInvenItem.GetItem()))
-        //            canInvenItem.DestroyItem();
-        //    }
-        //}
     }
-
     void WeaponReset() // 총알 다 쓰면 기본총으로 돌아오기
     {
         if (myCurWeapon == null)
@@ -557,11 +553,11 @@ public class Player : CharacterProperty , IBattle
         }
     }
 
-    void Reload(float playTime = 2.32f)
+    void Reload(float playTime = 2.32f) //재장전 함수
     {
         StartCoroutine(Reloading(playTime));
     }
-    IEnumerator Reloading(float playTime)
+    IEnumerator Reloading(float playTime) //제징잔 코루틴
     {
         myAnim.SetTrigger("Reload");
         while(playTime > 0.0f)
@@ -585,7 +581,7 @@ public class Player : CharacterProperty , IBattle
         myAnim.SetBool("CanThrow", canThrowBomb);
     }
 
-    public void Fireinthehole()  
+    public void Fireinthehole() //수류탄 투척
     {
         myCurGrenade.GetComponent<Weapons>().ButtonDownOnFire(ZoomPosVec, ThrowPower, !canThrowBomb);
         number_Grenade--;
@@ -595,7 +591,7 @@ public class Player : CharacterProperty , IBattle
         }
     }
 
-    void UsePotion()
+    void UsePotion() // 포션 사용하기
     {
         myInfo.CurHP += (myInfo.MaxHP - myInfo.CurHP) * (myCurPotion.GetComponent<Useitem_Heal>().healAmount / 100);
         number_Potion--;
@@ -613,12 +609,12 @@ public class Player : CharacterProperty , IBattle
         CameraMove.Inst.CameraShake();
     }
     Coroutine NuckCo = null;
-    public void NuckBack(Vector3 dir, float power = 25)
+    public void NuckBack(Vector3 dir, float power = 25) //넉백 ( 미완성 )
     {
         if (NuckCo != null) StopCoroutine(NuckCo);
         NuckCo = StartCoroutine(Forcing(power, dir));
     }
-    IEnumerator Forcing(float power, Vector3 dir)
+    IEnumerator Forcing(float power, Vector3 dir) // 구르기
     {
         dir.Normalize();
         myRigid.AddForce(dir * power, ForceMode.Impulse);
@@ -629,4 +625,21 @@ public class Player : CharacterProperty , IBattle
     {
         WeaponImage.Inst.ChangeImageIndex(i);
     }
+    void LevelUp()
+    {
+        myInfo.LevelUp(myInfo.CurLevel);
+        GameObject obj = Instantiate(levelUpEfc, transform.position, levelUpEfc.transform.rotation, transform);
+    }
+    public void GetExp(float exp)
+    {
+        float remainExp;
+        if (myInfo.CurNeedExp + exp >= myInfo.NeedExp)
+        {
+            remainExp = (myInfo.CurNeedExp + exp) - myInfo.NeedExp;
+            LevelUp();
+            GetExp(remainExp);
+        }
+        else {
+            myInfo.CurNeedExp += exp;
+    } }
 }
