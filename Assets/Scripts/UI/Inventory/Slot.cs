@@ -9,15 +9,37 @@ public class Slot : MonoBehaviour
     public Image mySlotImage;
     public bool Setitem(Accessories _accessories)
     {
-        if (_accessories != null)
+        if (my_accessories == null && _accessories == null)
+            return false;
+        if (my_accessories != _accessories)
         {
-            Debug.Log("악세 획득 인벤토리 표시");
             my_accessories = _accessories;
             mySlotImage.sprite = my_accessories.itemImage;
             return true;
         }
-        Debug.Log("악세 획득 인벤토리 표시 안됨");
         return false;
+    }
+    public bool SetNullitem()
+    {
+        my_accessories = null;
+        mySlotImage.sprite = null;
+        return true;
+    }
+    public void PutItem() //인벤토리에 있는 아이템 클릭할때 나오는 버튼 활성화 실행
+    {
+        if (IsHaveItem())
+        {
+            InventoryUI.Inst.ClickInventoryItemButton();
+        }
+    }
+    public void UsingItem()
+    {
+        Inventory.Inst.UseItem(my_accessories);
+    }
+    bool IsHaveItem()
+    {
+        if (my_accessories == null) return false;
+        return true;
     }
     private void Update()
     {

@@ -16,7 +16,7 @@ public class ExpBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        myExpText.text = "Lv : " + Player.Inst.myInfo.CurLevel.ToString();
+        myExpText.SetText("Lv : " + Player.Inst.myInfo.CurLevel.ToString());
         myExpSlider.value = Player.Inst.myInfo.CurNeedExp / Player.Inst.myInfo.NeedExp;
     }
 }

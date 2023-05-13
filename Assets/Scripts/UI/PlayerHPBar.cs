@@ -19,6 +19,6 @@ public class PlayerHPBar : MonoBehaviour
     void Update()
     {
         myHpBar.value = myTarget.myInfo.CurHP / myTarget.myInfo.MaxHP;
-        myText.text = (myTarget.myInfo.CurHP.ToString()) + " / " + myTarget.myInfo.MaxHP.ToString().;
+        myText.text = myTarget.myInfo.CurHP.ToString() + " / " + myTarget.myInfo.MaxHP.ToString();
     }
 }
