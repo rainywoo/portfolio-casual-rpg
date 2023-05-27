@@ -98,6 +98,8 @@ public class Player : CharacterProperty , IBattle
         WeaponImageUpdate(number_Weapon);
 
         WalkSpeed = MoveSpeed / 2;
+
+        BgmManager.Inst.ChangeStateBGM(BgmManager.Inst.myState);
     }
     private void FixedUpdate()
     {

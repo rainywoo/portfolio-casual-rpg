@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class BgmManager : MonoBehaviour
 {
-    public BgmManager Inst;
+    public static BgmManager Inst;
 
-    public enum MYPOS { Home, Death, Shop, Dungeon1_1 }
+    public enum MYPOS { Default, Home, Death, Shop, Dungeon }
     public MYPOS myState = MYPOS.Home;
 
-    public AudioClip[] myBGM;
+    public AudioClip myBGM;
+    public AudioClip deathBgm;
+    public AudioClip shopBgm;
     public AudioClip[] HomeBGM;
 
     public float MasterVolume = 1.0f;
@@ -37,7 +39,8 @@ public class BgmManager : MonoBehaviour
     }
     void Start()
     {
-        myState = MYPOS.Home;
+        bgmSpeaker.clip = myBGM;
+        bgmSpeaker.Play();
     }
 
     // Update is called once per frame
@@ -47,28 +50,26 @@ public class BgmManager : MonoBehaviour
         effectVolume = _effectVolume * MasterVolume;
         Mathf.Clamp(_bgmVolume, 0, 1.0f);
         Mathf.Clamp(_effectVolume, 0, 1.0f);
-
-        PlayBGM(myState);
     }
 
-    void PlayBGM(MYPOS t)
+    public void ChangeStateBGM(MYPOS t)
     {
         if (myState == t) return;
         myState = t;
-        switch ((int)t)
+        switch (t)
         {
-            case 0: //마을
+            case MYPOS.Home: //마을
+            case MYPOS.Dungeon:
                 bgmSpeaker.loop = true;
-                bgmSpeaker.clip = HomeBGM[(int)t];
+                bgmSpeaker.clip = myBGM;
                 break;
-            case 2: //상점
-            case 3: //던전 1_1
+            case MYPOS.Shop: //상점
                 bgmSpeaker.loop = true;
-                bgmSpeaker.clip = myBGM[(int)t];
+                bgmSpeaker.clip = shopBgm;
                 break;
-            case 1: //사망
+            case MYPOS.Death: //사망
                 bgmSpeaker.loop = false;
-                bgmSpeaker.clip = myBGM[(int)t];
+                bgmSpeaker.clip = deathBgm;
                 break;
         }
         bgmSpeaker.volume = bgmVolume;
