@@ -6,9 +6,6 @@ public class BgmManager : MonoBehaviour
 {
     public static BgmManager Inst;
 
-    public enum MYPOS { Default, Home, Death, Shop, Dungeon }
-    public MYPOS myState = MYPOS.Home;
-
     public AudioClip myBGM;
     public AudioClip deathBgm;
     public AudioClip shopBgm;
@@ -39,41 +36,24 @@ public class BgmManager : MonoBehaviour
     }
     void Start()
     {
-        bgmSpeaker.clip = myBGM;
-        bgmSpeaker.Play();
+        PlayMusic(myBGM);
     }
 
     // Update is called once per frame
     void Update()
     {
-        bgmVolume = _bgmVolume * MasterVolume;
-        effectVolume = _effectVolume * MasterVolume;
+        //bgmVolume = _bgmVolume * MasterVolume;
+        //effectVolume = _effectVolume * MasterVolume;
         Mathf.Clamp(_bgmVolume, 0, 1.0f);
         Mathf.Clamp(_effectVolume, 0, 1.0f);
     }
 
-    public void ChangeStateBGM(MYPOS t)
+    public void PlayMusic(AudioClip _clip, bool _true = true)
     {
-        if (myState == t) return;
-        myState = t;
-        switch (t)
-        {
-            case MYPOS.Home: //마을
-            case MYPOS.Dungeon:
-                bgmSpeaker.loop = true;
-                bgmSpeaker.clip = myBGM;
-                break;
-            case MYPOS.Shop: //상점
-                bgmSpeaker.loop = true;
-                bgmSpeaker.clip = shopBgm;
-                break;
-            case MYPOS.Death: //사망
-                bgmSpeaker.loop = false;
-                bgmSpeaker.clip = deathBgm;
-                break;
-        }
-        bgmSpeaker.volume = bgmVolume;
+        bgmSpeaker.clip = _clip;
+        bgmSpeaker.loop = _true;
+          
+        //bgmSpeaker.volume = bgmVolume;
         bgmSpeaker.Play();
     }
-
 }

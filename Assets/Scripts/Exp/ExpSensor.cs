@@ -14,7 +14,7 @@ public class ExpSensor : MonoBehaviour
             {
                 isPlayer = true;
             }
-            targetPos = (other.transform.position - transform.parent.position).normalized;
+            targetPos = other.transform.position;
         }
     }
     private void OnTriggerExit(Collider other)

@@ -16,8 +16,8 @@ public class Exp : MonoBehaviour
     {
         if(mySensor.isPlayer)
         {
-            Vector3 GoalPos = mySensor.targetPos;
-            transform.parent.position += GoalPos * 5.0f * Time.deltaTime;
+            Vector3 GoalPos = (transform.position - mySensor.targetPos).normalized;
+            transform.position += GoalPos * 2.0f * Time.deltaTime;
         }
     }
     private void OnTriggerEnter(Collider other)

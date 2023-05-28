@@ -19,6 +19,6 @@ MonoBehaviour:
   MaxMp: 0
   defense: 2
   Gold: 10
-  AttackDistance: 5
+  AttackDistance: 6
   AttackSpeed: 1
   level: 3

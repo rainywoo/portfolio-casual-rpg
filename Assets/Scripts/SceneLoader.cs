@@ -12,7 +12,8 @@ public class SceneLoader : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             PlayerPrefs.SetString("LastExitName", exitName);
-            SceneManager.LoadScene(sceneToLoad);
+            PlayerPrefs.SetString("SceneToLoad", sceneToLoad);
+            SceneManager.LoadScene("LoadingScene");
         }
     }
     private void Update()

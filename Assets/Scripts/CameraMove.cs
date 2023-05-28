@@ -21,6 +21,7 @@ public class CameraMove : MonoBehaviour
     float desireDist;
     float curCamDist;
     public static CameraMove Inst;
+
     private void Awake()
     {
         Inst = this;

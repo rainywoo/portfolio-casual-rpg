@@ -25,6 +25,7 @@ public class Weapons : MonoBehaviour
     [SerializeField] bool CanShot = false;
     public int Value;
 
+    public AudioClip FireSound = null;
     void Awake()
     {
         Inst = this;   
@@ -81,6 +82,11 @@ public class Weapons : MonoBehaviour
                 break;
             default: Curbullet--;
                 break;
+        }
+        if(FireSound != null)
+        {
+            AudioSource Speaker = GetComponent<AudioSource>();
+            Speaker.PlayOneShot(FireSound);
         }
     }
 

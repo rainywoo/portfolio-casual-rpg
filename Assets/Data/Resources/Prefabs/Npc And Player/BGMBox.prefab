@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 3095158488435378755}
   m_Layer: 0
   m_Name: Foot
-  m_TagString: Untagged
+  m_TagString: CanJump
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 3095158489017237725}
   m_Layer: 0
   m_Name: Spine
-  m_TagString: Untagged
+  m_TagString: CanJump
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -293,9 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8faa7b0b975a3c4fbc3df2e5a97d32a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inst: {fileID: 0}
-  myState: 0
-  myBGM: {fileID: 8300000, guid: 399119d414ba6554f8b1ab1379de5993, type: 3}
+  myBGM: {fileID: 8300000, guid: 9c393e0ad08681e4da8782eae82476bc, type: 3}
   deathBgm: {fileID: 8300000, guid: 09cbc0a7e0931fa458afec1b33e35a2f, type: 3}
   shopBgm: {fileID: 8300000, guid: 9c393e0ad08681e4da8782eae82476bc, type: 3}
   HomeBGM:
@@ -304,6 +302,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b48dc932da9aa3f4fb83d2cc0d705a10, type: 3}
   - {fileID: 8300000, guid: 9c284a16601926144b1f5ae9181780b6, type: 3}
   - {fileID: 8300000, guid: 399119d414ba6554f8b1ab1379de5993, type: 3}
+  - {fileID: 8300000, guid: d210b61d7822528409cdf4c263cf5fb9, type: 3}
   MasterVolume: 1
   _bgmVolume: 1
   _effectVolume: 1

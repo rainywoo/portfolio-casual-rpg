@@ -98,8 +98,6 @@ public class Player : CharacterProperty , IBattle
         WeaponImageUpdate(number_Weapon);
 
         WalkSpeed = MoveSpeed / 2;
-
-        BgmManager.Inst.ChangeStateBGM(BgmManager.Inst.myState);
     }
     private void FixedUpdate()
     {
@@ -339,7 +337,7 @@ public class Player : CharacterProperty , IBattle
         isDodge = true;
         canShot = false;
         myAnim.SetTrigger("Dodge");
-        DodgeDistance = 20.0f;
+        DodgeDistance = 10.0f;
         while (DodgeDistance > Mathf.Epsilon)
         {
             float delta = Time.deltaTime * DodgeSpeed;

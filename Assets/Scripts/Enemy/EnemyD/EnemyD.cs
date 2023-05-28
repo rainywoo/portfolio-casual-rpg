@@ -35,6 +35,8 @@ public class EnemyD : Enemy, IBattle
     public Transform myJumpAttackZone = null;
     public GameObject ClearObj = null;
 
+    public AudioClip myBGM = null;
+
     bool CanStun = false;
     bool isStun = false;
 
@@ -149,6 +151,7 @@ public class EnemyD : Enemy, IBattle
         myAnim.SetTrigger("Howling"); //하울링 소리 넣기
         myAnim.SetBool("Start", false);
         yield return new WaitForSeconds(4.0f);
+        BgmManager.Inst.PlayMusic(myBGM);
         ChangeState(STATE.Battle);
     }
     public void OnDamage(float dmg)
